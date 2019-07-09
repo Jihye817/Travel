@@ -1,16 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
-import common from './styles/Style';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
+import common from '../styles/Style';
 
-export default class Login extends Component{
+export default class Found extends Component{
   render() {
     return (
       <SafeAreaView style={[common.orangecontainer, {flex: 1}]}>
@@ -21,24 +13,18 @@ export default class Login extends Component{
             </View>
 
             <View style={styles.infobox}>
-              <Text>ID</Text>
-              <TextInput style={styles.inputbox} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
+              <Text>이름</Text>
+              <TextInput style={styles.inputbox} placeholder='ex) hat@email.com' placeholderTextColor='#D9D9D9' />
             </View>
 
             <View style={[styles.infobox, { paddingBottom: 10 }]}>
-              <Text>PASSWORD</Text>
-              <TextInput style={styles.inputbox} placeholder='password' placeholderTextColor='#D9D9D9' />
+              <Text>닉네임</Text>
+              <TextInput style={styles.inputbox} placeholder='ex) 박밀레' placeholderTextColor='#D9D9D9' />
             </View>
+
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn}><Text>LOGIN</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.loginbtn}><Text>찾기</Text></TouchableOpacity>
             </View>
-            <View style={styles.btnwrap}>
-              <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text>네이버 아이디로 로그인</Text></TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.bottom}>
-            <TouchableOpacity><Text>ID/PW찾기</Text></TouchableOpacity>
-            <TouchableOpacity><Text>회원가입</Text></TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>

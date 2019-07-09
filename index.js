@@ -5,18 +5,19 @@ import React, {Component} from 'react';
 import {AppRegistry} from 'react-native';
 import Splash from './app/pages/Splash';
 import Login from './app/Login';
+import Register from './app/pages/Register';
 
 class Index extends Component{
     constructor(props){
         super(props);
         this.state = {currentScreen: 'Splash'};
         setTimeout(()=> {
-            this.setState({currentScreen:'Login'})
+            this.setState({currentScreen:'Register'})
         }, 2000)
     }
     render(){
         const {currentScreen} = this.state
-        let mainScreen = currentScreen === 'Splash' ? <Splash /> : <Login />
+        let mainScreen = currentScreen === 'Splash' ? <Splash /> : <Register />
         return mainScreen
     }
 }

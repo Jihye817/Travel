@@ -1,16 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
-import common from './styles/Style';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
+import common from '../styles/Style';
 
-export default class Login extends Component{
+export default class Register extends Component{
   render() {
     return (
       <SafeAreaView style={[common.orangecontainer, {flex: 1}]}>
@@ -25,20 +17,27 @@ export default class Login extends Component{
               <TextInput style={styles.inputbox} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
             </View>
 
-            <View style={[styles.infobox, { paddingBottom: 10 }]}>
+            <View style={styles.infobox}>
               <Text>PASSWORD</Text>
               <TextInput style={styles.inputbox} placeholder='password' placeholderTextColor='#D9D9D9' />
             </View>
-            <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn}><Text>LOGIN</Text></TouchableOpacity>
+
+            <View style={styles.infobox}>
+              <Text>이름</Text>
+              <TextInput style={styles.inputbox} placeholder='Name' placeholderTextColor='#D9D9D9' />
             </View>
+
+            <View style={[styles.infobox, { paddingBottom: 10 }]}>
+              <Text>닉네임</Text>
+              <TextInput style={styles.inputbox} placeholder='Username' placeholderTextColor='#D9D9D9' />
+            </View>
+
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text>네이버 아이디로 로그인</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.loginbtn}><Text>회원가입</Text></TouchableOpacity>
             </View>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity><Text>ID/PW찾기</Text></TouchableOpacity>
-            <TouchableOpacity><Text>회원가입</Text></TouchableOpacity>
+            <Text>이용약관 및 개인정보 취급방침에 동의합니다</Text>
           </View>
         </View>
       </SafeAreaView>
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
   whitebox: {
     backgroundColor: '#FFF',
     width: '78%',
-    height:'70%',
+    height:'85%',
     padding: 20,
   },
   logobox: {
