@@ -11,6 +11,9 @@ import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaV
 import common from './styles/Style';
 
 export default class Login extends Component{
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <SafeAreaView style={[common.orangecontainer, {flex: 1}]}>
@@ -37,8 +40,8 @@ export default class Login extends Component{
             </View>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity><Text>ID/PW찾기</Text></TouchableOpacity>
-            <TouchableOpacity><Text>회원가입</Text></TouchableOpacity>
+            <TouchableOpacity><Text onPress = {() => this.props.navigation.navigate('FoundScreen')}>ID/PW찾기</Text></TouchableOpacity>
+            <TouchableOpacity><Text onPress = {() => this.props.navigation.navigate('RegisterScreen')}>회원가입</Text></TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
