@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Login from '../Login';
 import Register from '../pages/Register';
 import Found from '../pages/Found';
+import Triplist_main from '../pages/Triplist_main';
+import Newtrip from '../pages/Newtrip';
 
 const MyStackNavigator = createStackNavigator({
     //로그인-회원가입-아이디패스워드찾기 페이지 이동 네비게이터
@@ -16,6 +18,18 @@ const MyStackNavigator = createStackNavigator({
 },{initialRouteName : 'LoginScreen', headerMode : 'none'},
 );
 
-Nav = createAppContainer(MyStackNavigator);
+const MainStackNavigator = createStackNavigator({
+    TriplistmainScreen : {screen : Triplist_main,
+    },
+    NewtripScreen : {screen : Newtrip,
+    },
+},{headerMode : 'none'})
+
+const TotalNavigator = createSwitchNavigator({
+    loginstack : {screen : MyStackNavigator},
+    mainpagestack : {screen: MainStackNavigator},
+},{initialRouteName : 'loginstack', headerMode : 'none'});
+
+Nav = createAppContainer(TotalNavigator);
 
 export default Nav;

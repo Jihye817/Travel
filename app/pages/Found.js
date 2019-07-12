@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   whitebox: {
     backgroundColor: '#FFF',
-    width: '78%',
+    width: '80%',
     height:'70%',
     padding: 20,
   },

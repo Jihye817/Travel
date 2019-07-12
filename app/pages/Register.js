@@ -5,7 +5,7 @@ import common from '../styles/Style';
 export default class Register extends Component{
   render() {
     return (
-      <SafeAreaView style={[common.orangecontainer, {flex: 1}]}>
+      <SafeAreaView style={common.orangecontainer}>
         <View style={styles.container}>
           <View style={styles.whitebox}>
             <View style={styles.logobox}>

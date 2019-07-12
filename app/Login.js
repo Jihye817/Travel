@@ -16,7 +16,7 @@ export default class Login extends Component{
   }
   render() {
     return (
-      <SafeAreaView style={[common.orangecontainer, {flex: 1}]}>
+      <SafeAreaView style={common.orangecontainer}>
         <View style={styles.container}>
           <View style={styles.whitebox}>
             <View style={styles.logobox}>
@@ -33,15 +33,15 @@ export default class Login extends Component{
               <TextInput style={styles.inputbox} placeholder='password' placeholderTextColor='#D9D9D9' />
             </View>
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn}><Text>LOGIN</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.loginbtn} onPress = {() => this.props.navigation.navigate('TriplistmainScreen')}><Text style={styles.btntext}>LOGIN</Text></TouchableOpacity>
             </View>
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text>네이버 아이디로 로그인</Text></TouchableOpacity>
+              <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text style={styles.btntext}>네이버 아이디로 로그인</Text></TouchableOpacity>
             </View>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity><Text onPress = {() => this.props.navigation.navigate('FoundScreen')}>ID/PW찾기</Text></TouchableOpacity>
-            <TouchableOpacity><Text onPress = {() => this.props.navigation.navigate('RegisterScreen')}>회원가입</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.bottomtext} onPress = {() => this.props.navigation.navigate('FoundScreen')}>ID/PW찾기</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.bottomtext} onPress = {() => this.props.navigation.navigate('RegisterScreen')}>회원가입</Text></TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   whitebox: {
     backgroundColor: '#FFF',
-    width: '78%',
+    width: '80%',
     height:'70%',
     padding: 20,
   },
@@ -80,10 +80,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FF7C5E',
   },
+  btntext: {
+    color: '#FFF',
+    fontSize: 20,
+  },
   bottom: {
     width: '80%',
+    marginTop:3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  bottomtext:{
+    color: '#FFF'
   },
   btnwrap: {
     paddingVertical: 10,
