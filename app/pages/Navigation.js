@@ -5,6 +5,7 @@ import Register from '../pages/Register';
 import Found from '../pages/Found';
 import Triplist_main from '../pages/Triplist_main';
 import Newtrip from '../pages/Newtrip';
+import Triptab from '../pages/Triptab';
 
 const MyStackNavigator = createStackNavigator({
     //로그인-회원가입-아이디패스워드찾기 페이지 이동 네비게이터
@@ -21,7 +22,7 @@ const MyStackNavigator = createStackNavigator({
 const MainStackNavigator = createStackNavigator({
     TriplistmainScreen : {screen : Triplist_main,
     },
-    NewtripScreen : {screen : Newtrip,
+    NewtripScreen : {screen : Triptab,
     },
 },{headerMode : 'none'})
 

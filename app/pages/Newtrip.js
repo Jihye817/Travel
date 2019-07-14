@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {Calendar} from 'react-native-calendars';
 import common from '../styles/Style';
 
 export default class Newtrip extends Component{
@@ -22,7 +23,14 @@ export default class Newtrip extends Component{
           <View>
             <Text>날짜</Text>
           </View>
-
+            <Calendar
+              minDate={'2019-01-01'}
+              maxDate={'2020-12-31'}
+              onDayPress={day => console.log('selected day', day)}
+              theme={{
+                selectedDayBackgroundColor: '#000'
+              }}
+            />
           <View>
             <TouchableOpacity><Text>저장</Text></TouchableOpacity>
           </View>
