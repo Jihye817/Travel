@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import DropDownItem from 'react-native-drop-down-item';
+import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import common from '../styles/Style';
 
-const DOWN_ARROW = require('../assets/images/down_arrow.png');
-const UP_ARROW = require('../assets/images/up_arrow.png');
+const DOWN_ARROW = require('../assets/images/ic_arr_down.png');
+const UP_ARROW = require('../assets/images/ic_arr_up.png');
 
 export default class Schedule extends Component{
-    state = {
+    constructor(props){
+        super(props);
+        this.state = {showbody : true, activeImage : true}
+    }
+    toggleBody = () =>{
+        this.setState({showbody : !this.state.showbody, activeImage : !this.state.activeImage,})
+    }
+    data = {
         contents: [
             {
                 date: '4/3',
@@ -21,28 +28,23 @@ export default class Schedule extends Component{
         ]
     }
     render() {
+        let arrowImage = this.state.activeImage ? DOWN_ARROW : UP_ARROW;
         return(
-            <View>
-                <Text>Schedule</Text>
-                <ScrollView>
+            <View style = {common.greycontainer}>
+                <View style={common.greybar} />
+                <ScrollView style={{alignSelf: 'stretch'}}>
                     {
-                        this.state.contents ? this.state.contents.map((param, i) => {
+                        this.data.contents ? this.data.contents.map((param, i) => {
                             return(
-                                <DropDownItem
-                                    style={{marginTop: 10, backgroundColor: '#ff0'}}
-                                    key={i}
-                                    contentVisible={false}
-                                    invisibleImage={DOWN_ARROW}
-                                    visibleImage={UP_ARROW}
-                                    header={
-                                        <View style={styles.header}>
-                                            <Text>{param.date}</Text>
+                                <View style={styles.container}>
+                                    <View style={styles.dropwrap}>
+                                        <View style={styles.dropdown} key={i}>
+                                            <Text style={{fontSize: 16}}>{param.date}</Text>
+                                            <TouchableOpacity onPress={this.toggleBody}><Image source={arrowImage}/></TouchableOpacity>
                                         </View>
-                                    }
-                                >
-                                    <Text>{param.body}</Text>
-
-                                </DropDownItem>
+                                        {this.state.showbody ? (<View><Text>{param.body}</Text></View>) : null}
+                                    </View>
+                                </View>
                             );
                         })
                         : null
@@ -54,9 +56,28 @@ export default class Schedule extends Component{
 }
 
 const styles = StyleSheet.create({
+    container:{
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     header:{
-        paddingVertical: 10,
-        borderWidth:1,
+        width: '100%',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    dropwrap:{
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        width: '80%',
+        marginTop: 15,
+        padding: 5,
         borderColor: '#D2D2D2'
+    },
+    dropdown: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 })
