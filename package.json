@@ -7,11 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "accordion-collapse-react-native": "^0.1.11",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-calendars": "^1.196.0",
     "react-native-drop-down-item": "^1.0.5",
     "react-native-gesture-handler": "^1.3.0",
+    "react-native-modal": "^11.1.0",
+    "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.11.0"
   },
   "devDependencies": {

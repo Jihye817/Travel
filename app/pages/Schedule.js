@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import common from '../styles/Style';
 
 const DOWN_ARROW = require('../assets/images/ic_arr_down.png');
@@ -8,11 +9,11 @@ const UP_ARROW = require('../assets/images/ic_arr_up.png');
 export default class Schedule extends Component{
     constructor(props){
         super(props);
-        this.state = {showbody : true, activeImage : true}
+        this.state = {
+            collapsed : false, activeImage : false,
+            }
     }
-    toggleBody = () =>{
-        this.setState({showbody : !this.state.showbody, activeImage : !this.state.activeImage,})
-    }
+
     data = {
         contents: [
             {
@@ -28,21 +29,28 @@ export default class Schedule extends Component{
         ]
     }
     render() {
-        let arrowImage = this.state.activeImage ? DOWN_ARROW : UP_ARROW;
         return(
             <View style = {common.greycontainer}>
                 <View style={common.greybar} />
                 <ScrollView style={{alignSelf: 'stretch'}}>
                     {
-                        this.data.contents ? this.data.contents.map((param, i) => {
+                        this.data.contents ? this.data.contents.map((param, index) => {
                             return(
                                 <View style={styles.container}>
                                     <View style={styles.dropwrap}>
-                                        <View style={styles.dropdown} key={i}>
-                                            <Text style={{fontSize: 16}}>{param.date}</Text>
-                                            <TouchableOpacity onPress={this.toggleBody}><Image source={arrowImage}/></TouchableOpacity>
+                                        <View style={styles.dropdown} key={index}>
+                                            <Collapse style={{width:'100%'}} key={index} isCollapsed={this.state.collapsed}>
+                                                <CollapseHeader style={{width:'100%'}}>
+                                                    <View style={{width: '100%', flexDirection:'row'}}>
+                                                        <Text>{param.date}</Text>
+                                                        <TouchableOpacity><Text>+</Text></TouchableOpacity>
+                                                    </View>
+                                                </CollapseHeader>
+                                                <CollapseBody>
+                                                    <View><Text>{param.body}</Text></View>
+                                                </CollapseBody>
+                                            </Collapse>
                                         </View>
-                                        {this.state.showbody ? (<View><Text>{param.body}</Text></View>) : null}
                                     </View>
                                 </View>
                             );
