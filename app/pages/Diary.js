@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Image} from 'react-native';
 import common from '../styles/Style';
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
@@ -32,9 +32,42 @@ export default class Diary extends Component{
 
                 </View>
         )
-    } 
+    }
 
     render() {
+        const TempOne =
+            <View style={{backgroundColor: '#FFF', width: '80%', height: '95%', marginTop:5, borderWidth: 1, borderColor:'#FF7C5E', alignItems:'center'}}>
+                <View style={{marginTop:10, justifyContent: 'center', alignItems:'center'}}>
+                    <Text style={{fontSize: 22, color: '#A2A2A2'}}>TITLE</Text>
+                </View>
+                <View style={{alignItems:'center', width: '90%', height:'50%', justifyContent:'flex-start'}}>
+                    <Image style={{height:'90%', width: '100%'}} resizeMode='center' source={require('../assets/images/photoexample.jpg')}></Image>
+                </View>
+                <View style={{height:'40%', width:'100%', alignItems:'center', justifyContent:'center'}}>
+                    <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '22%' }} />
+                    <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '22%' }} />
+                    <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '22%' }} />
+                    <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '22%' }} />
+                </View>
+            </View>
+
+        const TempTwo =
+        <View style={{backgroundColor: '#FFF', width: '80%', height: '95%', marginTop:5, borderWidth: 1, borderColor:'#FF7C5E', alignItems:'center'}}>
+            <View style={{marginTop:10, justifyContent: 'center', alignItems:'center'}}>
+                <Text style={{fontSize: 22, color: '#A2A2A2'}}>TITLE</Text>
+            </View>
+            <View style={{height:'90%', width:'100%', alignItems:'center', justifyContent:'center'}}>
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+                <View style={{ borderTopWidth: 1, borderTopColor: '#D2D2D2', width: '90%', height: '10%' }} />
+            </View>
+        </View>
+
         return (
             <View style={common.greycontainer}>
                 <View style={common.greybar} />
@@ -50,27 +83,47 @@ export default class Diary extends Component{
                 <View style = {styles.btnwrap}>
                     <TouchableOpacity style = {styles.circlebtn} onPress={() => this.setState({popupdata:true})}></TouchableOpacity>
                 </View>
+                
                 <Modal isVisible={this.state.popupdata}>
-                    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <View style={{backgroundColor:'#FFF', width:'90%', height: '80%'}}>
-                            <View><Text>Template</Text></View>
-                            <View style={{width:'100%', height:'80%'}}>
-                            <Swiper style={{backgroundColor: '#0f9'}} onIndexChanged={(index)=>this.setState({ishidden: index})} loop={false} showsButtons>
-                                <View>
-                                    {
-                                        this.state.ishidden === 0 ? <Text>this is page one</Text> : null
-                                    }
-                                </View>
-                                <View>
-                                    {
-                                        this.state.ishidden === 1 ? <Text>this is page two</Text> : null
-                                    }
-                                </View>
-                            </Swiper>
+                    <View style={styles.popwrap}>
+                        <View style={styles.popwhite}>
+                            <View style={{alignItems:'flex-end', marginRight:5, marginTop:2,}}>
+                                <TouchableOpacity onPress={() => this.setState({popupdata:false})}>
+                                    <Text style={{fontSize:20}}>X</Text>
+                                </TouchableOpacity>
                             </View>
-                            <TouchableOpacity onPress={() => this.setState({popupdata:false})}>
-                                <Text>작성</Text>
-                            </TouchableOpacity>
+
+                            <View style={{alignItems:'center', paddingBottom: 5,}}>
+                                <Text style={styles.temptext}>Template</Text>
+                            </View>
+
+                            <View style={{width:'100%', height:'75%'}}>
+                                <Swiper style={{ width: '100%', height: '100%', justifyContent:'center', alignItems: 'center' }}
+                                    onIndexChanged={(index) => this.setState({ ishidden: index })}
+                                    loop={false}
+                                    showsPagination={false}
+                                    showsButtons
+                                    nextButton = {<Text style={{color:'#FF7C5E', fontSize:26}}> ▶</Text>}
+                                    prevButton = {<Text style={{color:'#FF7C5E', fontSize:26}}>◀ </Text>}
+                                >
+                                    <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                                        {
+                                            this.state.ishidden === 0 ? TempOne : null
+                                        }
+                                    </View>
+                                    <View style={{ justifyContent:'center', alignItems: 'center' }}>
+                                        {
+                                            this.state.ishidden === 1 ? TempTwo : null
+                                        }
+                                    </View>
+                                </Swiper>
+                            </View>
+
+                            <View style={styles.bottombtnwrap}>
+                                <TouchableOpacity style={{ width: '80%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={() => this.setState({ popupdata: false })}>
+                                    <Text style={{color: '#FFF', fontSize:16}}>작성</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -91,6 +144,23 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         width: 60,
         height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    popwrap: {
+        flex:1, 
+        justifyContent:'center', 
+        alignItems:'center'
+    },
+    popwhite: {
+        backgroundColor:'#FFF',
+        width:'90%',
+        height: '80%'
+    },
+    temptext:{
+        fontSize: 24,
+    },
+    bottombtnwrap: {
         justifyContent: 'center',
         alignItems: 'center',
     },
