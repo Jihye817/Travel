@@ -22,7 +22,9 @@ const MyStackNavigator = createStackNavigator({
 const MainStackNavigator = createStackNavigator({
     TriplistmainScreen : {screen : Triplist_main,
     },
-    NewtripScreen : {screen : Triptab,
+    NewtripScreen : {screen : Newtrip,
+    },
+    TriptabScreen : {screen : Triptab,
     },
 },{headerMode : 'none'})
 

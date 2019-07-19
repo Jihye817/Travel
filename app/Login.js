@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import common from './styles/Style';
 
 export default class Login extends Component{
@@ -20,7 +20,7 @@ export default class Login extends Component{
         <View style={styles.container}>
           <View style={styles.whitebox}>
             <View style={styles.logobox}>
-              <Text>HAT</Text>
+              <Image style={{width:'100%', height:'100%'}} resizeMode='contain' source={require('./assets/images/HATlogowithtxt.png')}></Image>
             </View>
 
             <View style={styles.infobox}>
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   },
   logobox: {
     height: '30%',
-    backgroundColor: '#FF5',
   },
   infobox: {
     paddingTop: 10,

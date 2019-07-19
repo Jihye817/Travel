@@ -32,7 +32,7 @@ export default class Newtrip extends Component{
               }}
             />
           <View>
-            <TouchableOpacity><Text>저장</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.props.navigation.goBack()}><Text>저장</Text></TouchableOpacity>
           </View>
         </View>
       </View>
