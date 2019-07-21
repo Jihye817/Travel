@@ -10,6 +10,10 @@ const common = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F2F2F2'
     },
+    whitecontainer: {
+        flex: 1,
+        backgroundColor: '#FFF'
+    },
     greybar: {
         height:5,
         backgroundColor: '#D2D2D2',

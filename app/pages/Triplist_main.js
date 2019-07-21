@@ -49,7 +49,9 @@ export default class Triplist_main extends Component{
                     </ScrollView>
                 </View>
                 <View style = {styles.btnwrap}>
-                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen')}></TouchableOpacity>
+                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen')}>
+                        <Text style={styles.btnplus}>+</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -75,5 +77,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    btnplus: {
+        color: '#FFF',
+        fontSize:30,
+    }
 
 })

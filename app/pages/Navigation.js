@@ -26,7 +26,7 @@ const MainStackNavigator = createStackNavigator({
     },
     TriptabScreen : {screen : Triptab,
     },
-},{headerMode : 'none'})
+},{headerMode : 'none'});
 
 const TotalNavigator = createSwitchNavigator({
     loginstack : {screen : MyStackNavigator},

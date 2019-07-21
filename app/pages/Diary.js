@@ -34,7 +34,15 @@ export default class Diary extends Component{
         )
     }
 
+    popFunction = () => {
+        this.setState({popupdata : false});
+        this.props.navigation.navigate('DwriteScreen');
+    }
+
     render() {
+
+        const { navigate } = this.props.navigation;
+
         const TempOne =
             <View style={{backgroundColor: '#FFF', width: '80%', height: '95%', marginTop:5, borderWidth: 1, borderColor:'#FF7C5E', alignItems:'center'}}>
                 <View style={{marginTop:10, justifyContent: 'center', alignItems:'center'}}>
@@ -120,7 +128,7 @@ export default class Diary extends Component{
                             </View>
 
                             <View style={styles.bottombtnwrap}>
-                                <TouchableOpacity style={{ width: '80%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={() => this.setState({ popupdata: false })}>
+                                <TouchableOpacity style={{ width: '80%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={this.popFunction}>
                                     <Text style={{color: '#FFF', fontSize:16}}>작성</Text>
                                 </TouchableOpacity>
                             </View>
