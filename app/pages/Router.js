@@ -5,6 +5,7 @@ import Diary from '../pages/Diary';
 import Money from '../pages/Money';
 import Tabbar from '../pages/Tabbar';
 import Dwrite from '../pages/Dwrite';
+import New_Schedule from '../pages/New_Schedule';
 
 const MyTabNavigator = createMaterialTopTabNavigator({
     //탭 메뉴를 위한 네비게이터
@@ -25,9 +26,15 @@ const DiaryStackNavigator = createStackNavigator({
     },
 },{headerMode : 'none'});
 
+const ScheduleStackNavigator = createStackNavigator({
+    New_ScheduleScreen : {screen: New_Schedule,
+    },
+},{headerMode : 'none'});
+
 const TotalStackNavigator = createStackNavigator({
     Tabstack : {screen : MyTabNavigator},
     Diarystack : {screen: DiaryStackNavigator},
+    Schedulestack : {screen: ScheduleStackNavigator},
 },{initialRouteName : 'Tabstack', headerMode : 'none'});
 
 Navs = createAppContainer(TotalStackNavigator);
