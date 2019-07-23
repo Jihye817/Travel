@@ -8,52 +8,18 @@ export default class New_Schedule extends Component{
     constructor(props){
         super(props);
         this.state = {
+            popupdata: false,
             value : "0",
             activeCheckbox: null,
-            data: [{ month: '4', day: '3', key: '속초', id:0, checked: false }, { month: '4', day: '4', key: '양평', id:1, checked: false }, { month: '4', day: '4', key: '양평', id:2, checked: false }],
+            data: [{ month: '4', day: '3', key: '속초', id:0, checked: false }, { month: '4', day: '4', key: '양평', id:1, checked: false }, { month: '4', day: '4', key: '전주', id:2, checked: false }],
         }
     }
-
-    /*componentWillMount() {
-        let {data, checked} = this.state;
-        let initialCheck = data.map(()=>false);
-        this.setState({checked: initialCheck});
-    }
-
-    handleChange = (index) => {
-        let checked = [this.state.checked];
-        checked[index] = !checked[index];
-        this.setState({checked});
-    }
-
-    handleChange = (index) => {
-        this.setState({activeCheckbox: index});
-    }*/
 
     handleChange =(itemID)=>{
         let data = this.state.data
         data[itemID].checked=!data[itemID].checked
         this.setState({data:data})
     }
-
-    /*_renderItem =({item, index}) => {//Flatlist list 내용
-        
-        let {checked} = this.state;
-        return(
-            <TouchableOpacity style={styles.listitemwrap}>
-                <View style={styles.checkwrap}>
-                    <CheckBox
-                        checked={checked[index]}
-                        onPress={()=> this.handleChange(index)}
-                    ></CheckBox>
-                </View>
-                <View style={styles.textwrap}>
-                    <View><Text>제목</Text></View>
-                    <View><Text>내용</Text></View>
-                </View>
-            </TouchableOpacity>
-        )
-    }*/
 
     render(){
         let {data, checked} = this.state;
@@ -87,23 +53,20 @@ export default class New_Schedule extends Component{
                         <ScrollView style={styles.scrollview}>
                             <FlatList
                                 style={{width: '100%', height:'50%'}}
-                                //renderItem={this._renderItem}
                                 data={data}
                                 extraData={this.state}
                                 renderItem={({ item, index }) =>
-                                    <TouchableOpacity style={styles.listitemwrap}>
+                                    <TouchableOpacity style={styles.listitemwrap} onPress={()=>this.setState({popupdata:true})}>
                                         <View style={styles.checkwrap}>
                                             <CheckBox
-                                                //onPress={() => this.handleChange(index)}
-                                                //checked={checked[index]}
-                                                //checked={this.state.activeCheckbox === index}
                                                 checked={this.state.data[item.id].checked}
                                                 onPress={()=>this.handleChange(item.id)}
+                                                checkedColor='#FF7C5E'
                                             ></CheckBox>
                                         </View>
                                         <View style={styles.textwrap}>
                                             <View style={{}}><Text style={{fontSize: 18,}}>{item.month}</Text></View>
-                                            <View><Text>내용</Text></View>
+                                            <View><Text>{item.key}</Text></View>
                                         </View>
                                     </TouchableOpacity>
                             }
@@ -111,16 +74,53 @@ export default class New_Schedule extends Component{
                         </ScrollView>
 
                         <View style = {styles.btnwrap}>
-                            <TouchableOpacity style={styles.btn}>
+                            <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('ScheduleScreen')}>
                                 <Text style={styles.btntxt}>저장</Text>
                             </TouchableOpacity>
                             
-                            <TouchableOpacity style={styles.btn}>
+                            <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('ScheduleScreen')}>
                                 <Text style={styles.btntxt}>취소</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
+                <Modal isVisible={this.state.popupdata}>
+                    <View style={styles.popwrap}>
+                        <View style={styles.popwhite}>
+                            <View style={{alignItems:'flex-end', marginRight:5, marginTop:2,}}>
+                                <TouchableOpacity onPress={() => this.setState({popupdata:false})}>
+                                    <Text style={{fontSize:20}}>X</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={{alignItems:'center', paddingBottom: 5,}}>
+                                <Text style={styles.temptext}>세부정보</Text>
+                            </View>
+
+                            <View style={{justifyContent:'center', alignItems:'center', height:'35%'}}>
+                                <Image resizeMode='contain' style={{width:'80%'}} source={require('../assets/images/photoexample.jpg')}></Image>
+                            </View>
+
+                            <View style={{height: '35%',}}>
+                                <View style={{width:'80%', alignItems:'center' }}>
+                                    <View style={{width:'80%'}}>
+                                        <Text style={{fontSize: 18,}}>장소이름</Text>
+                                    </View>
+                                    <View style={{width:'80%', marginTop: 10,}}>
+                                        <Text>장소설명</Text>
+                                    </View>
+                                </View>
+                            </View>
+
+
+                            <View style={styles.bottombtnwrap}>
+                                <TouchableOpacity style={{ width: '80%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.setState({popupdata:false})}>
+                                    <Text style={{color: '#FFF', fontSize:16}}>닫기</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }
@@ -218,5 +218,23 @@ const styles = StyleSheet.create({
     textwrap: {
         width:'85%',
         justifyContent:'center',
-    }
+    },
+    popwrap: {
+        flex:1, 
+        justifyContent:'center', 
+        alignItems:'center'
+    },
+    popwhite: {
+        backgroundColor:'#FFF',
+        width:'90%',
+        height: '80%'
+    },
+    temptext:{
+        fontSize: 24,
+    },
+    bottombtnwrap: {
+        marginTop: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })

@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import common from '../styles/Style';
+import {CheckBox} from 'react-native-elements';
 
 export default class Register extends Component{
+  constructor(props){
+    super(props);
+    this.state={checked:false}
+  }
   render() {
     return (
       <SafeAreaView style={common.orangecontainer}>
@@ -14,7 +19,17 @@ export default class Register extends Component{
 
             <View style={styles.infobox}>
               <Text>ID</Text>
-              <TextInput style={styles.inputbox} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
+              <View style={styles.inputwrap}>
+                <TextInput style={[styles.inputbox, {width:'70%'}]} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
+                <TouchableOpacity style={styles.codebtn}>
+                  <Text style={styles.txt}>인증요청</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.infobox}>
+              <Text>인증코드</Text>
+              <TextInput style={styles.inputbox} placeholder='code' placeholderTextColor='#D9D9D9' />
             </View>
 
             <View style={styles.infobox}>
@@ -33,11 +48,16 @@ export default class Register extends Component{
             </View>
 
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn}><Text>회원가입</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.loginbtn}><Text style={{color:'#FFF', fontSize:18,}}>회원가입</Text></TouchableOpacity>
             </View>
           </View>
           <View style={styles.bottom}>
-            <Text>이용약관 및 개인정보 취급방침에 동의합니다</Text>
+            <CheckBox 
+            checked={this.state.checked}
+            onPress={()=>this.setState({checked:!this.state.checked})}
+            uncheckedColor='#FFF'
+            checkedColor='#FFF'></CheckBox>
+            <Text style={{color:'#FFF'}}>이용약관 및 개인정보 취급방침에 동의합니다</Text>
           </View>
         </View>
       </SafeAreaView>
@@ -55,14 +75,32 @@ const styles = StyleSheet.create({
   whitebox: {
     backgroundColor: '#FFF',
     width: '78%',
-    height:'85%',
+    height:'88%',
     padding: 20,
   },
   logobox: {
-    height: '30%',
+    height: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infobox: {
     paddingTop: 10,
+  },
+  inputwrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  codebtn: {
+    marginTop:5,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF7C5E',
+    width:'30%'
+  },
+  txt:{
+    color:'#FFF'
   },
   inputbox: {
     marginTop:5,
@@ -78,10 +116,10 @@ const styles = StyleSheet.create({
   bottom: {
     width: '80%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    alignItems:'center'
   },
   btnwrap: {
     paddingVertical: 10,
-
   },
 });

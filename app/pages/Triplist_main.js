@@ -37,8 +37,8 @@ export default class Triplist_main extends Component{
     render(){
         return (
             <View style={[common.greycontainer,{flex:1}]}>
-                <View style ={styles.container} >
-                    <Text>여행 리스트</Text>
+                <View style ={styles.one} >
+                    <Text style={styles.toptext}>여행 리스트</Text>
                 </View>
                 <View style = {{maxHeight : '85%'}}>
                     <ScrollView>
@@ -59,11 +59,16 @@ export default class Triplist_main extends Component{
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FF7C5E',
-        flex: 0.3,
-        alignItems: 'center',
+    one: {
+        width: '100%',
+        height: 60,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FF7C5E',
+      },
+    toptext:{
+      fontSize: 20,
+      color:'#FFF',
     },
     btnwrap: {
         justifyContent: 'center',
