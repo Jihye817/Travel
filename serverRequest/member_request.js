@@ -174,16 +174,17 @@ module.exports=[Login, Signup, SendVerifEmail, VerifyEmail];
 Example code for the function
 
 var email = 'unme0101@naver.com';
-var name = 'hye';
-var nickname = 'H';
+var name = '한글';
+var nickname = '나랏말싸미최고야';
 var pwd = 'password';
 
 SendVerifEmail(email);
 VerifyEmail(email, "4b4+xqT8");
 
-Signup(email, name, nickname, pwd).then(function(data) {
+Signup(email,name,nickname,pwd).then(function(data) {
     console.log(data);
 });
+
 Login(email, pwd).then(function(data) {
     console.log(data);
 });
