@@ -2,12 +2,63 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import common from '../styles/Style';
 import {CheckBox} from 'react-native-elements';
+import {Login, Signup, SendVerifEmail, VerifyEmail} from '../../../Travel/serverRequest/member_request';
 
 export default class Register extends Component{
   constructor(props){
     super(props);
-    this.state={checked:false}
+    this.state={checked:false, email: '', pwd: '', nickname: '', name: '', verifCode: ''}
   }
+
+  codeRequestFunction () {
+    fetch("http://106.10.53.87:8080/signup/verif",{
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.email
+      }),
+      headers: {"Content-Type": "application/json"}
+    }).then(function(response){
+      return response.json();
+    })
+    .then(function(data){
+      console.log(data)
+    });
+  }
+
+  verifyCodeFunction () {
+    fetch("http://106.10.53.87:8080/signup/verif",{
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.email,
+        verifCode: this.state.verifCode
+      }),
+      headers: {"Content-Type": "application/json"}
+    }).then(function(response){
+      return response.json();
+    })
+    .then(function(data){
+      console.log(data)
+    });
+  }
+
+  signupFunction () {
+    fetch("http://106.10.53.87:8080/signup",{
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.email,
+        name: this.state.name,
+        nickname: this.state.nickname,
+        pwd: this.state.pwd
+      }),
+      headers: {"Content-Type": "application/json"}
+    }).then(function(response){
+      return response.json();
+    })
+    .then(function(data){
+      console.log(data)
+    });
+  }
+
   render() {
     return (
       <SafeAreaView style={common.orangecontainer}>
@@ -20,8 +71,17 @@ export default class Register extends Component{
             <View style={styles.infobox}>
               <Text>ID</Text>
               <View style={styles.inputwrap}>
-                <TextInput style={[styles.inputbox, {width:'70%'}]} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
-                <TouchableOpacity style={styles.codebtn}>
+                <TextInput
+                  style={[styles.inputbox, {width:'70%'}]}
+                  placeholder='E-mail'
+                  placeholderTextColor='#D9D9D9'
+                  keyboardType='email-address'
+                  returnKeyType='next'
+                  autoCorrect={false}
+                  value={this.state.email}
+                  onChangeText={(text) => this.setState({email : text})}
+                  />
+                <TouchableOpacity style={styles.codebtn} onPress={()=>this.codeRequestFunction()}>
                   <Text style={styles.txt}>인증요청</Text>
                 </TouchableOpacity>
               </View>
@@ -29,26 +89,65 @@ export default class Register extends Component{
 
             <View style={styles.infobox}>
               <Text>인증코드</Text>
-              <TextInput style={styles.inputbox} placeholder='code' placeholderTextColor='#D9D9D9' />
+              <View style={styles.inputwrap}>
+                <TextInput
+                  style={[styles.inputbox, {width:'70%'}]}
+                  placeholder='code'
+                  placeholderTextColor='#D9D9D9'
+                  returnKeyType='next'
+                  autoCorrect={false}
+                  value={this.state.verifCode}
+                  onChangeText={(text) => this.setState({verifCode : text})}
+                />
+                <TouchableOpacity style={styles.codebtn} onPress={()=>this.verifyCodeFunction()}>
+                  <Text style={styles.txt}>인증확인</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.infobox}>
               <Text>PASSWORD</Text>
-              <TextInput style={styles.inputbox} placeholder='password' placeholderTextColor='#D9D9D9' />
+              <TextInput
+                style={styles.inputbox}
+                placeholder='password'
+                placeholderTextColor='#D9D9D9'
+                returnKeyType='next'
+                secureTextEntry
+                autoCorrect={false}
+                value={this.state.pwd}
+                onChangeText={(text) => this.setState({pwd : text})}
+                />
             </View>
 
             <View style={styles.infobox}>
               <Text>이름</Text>
-              <TextInput style={styles.inputbox} placeholder='Name' placeholderTextColor='#D9D9D9' />
+              <TextInput
+                style={styles.inputbox}
+                placeholder='Name'
+                placeholderTextColor='#D9D9D9'
+                returnKeyType='next'
+                autoCorrect={false}
+                value={this.state.name}
+                onChangeText={(text) => this.setState({name : text})}
+                />
             </View>
 
             <View style={[styles.infobox, { paddingBottom: 10 }]}>
               <Text>닉네임</Text>
-              <TextInput style={styles.inputbox} placeholder='Username' placeholderTextColor='#D9D9D9' />
+              <TextInput
+                style={styles.inputbox}
+                placeholder='Username'
+                placeholderTextColor='#D9D9D9'
+                autoCorrect={false}
+                value={this.state.nickname}
+                onChangeText={(text) => this.setState({nickname : text})}
+                />
             </View>
 
             <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn}><Text style={{color:'#FFF', fontSize:18,}}>회원가입</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.loginbtn} onPress={()=>this.signupFunction()}>
+                <Text style={{color:'#FFF', fontSize:18,}}>회원가입</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.bottom}>

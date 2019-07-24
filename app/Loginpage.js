@@ -17,8 +17,7 @@ export default class Loginpage extends Component {
     this.state = {email: '', pwd: ''}
   }
 
-  loginFunction (){
-    //Login(this.state.email, this.state.pwd);
+  loginFunction () {
     fetch("http://106.10.53.87:8080/login",{
       method: "POST",
       body: JSON.stringify({
