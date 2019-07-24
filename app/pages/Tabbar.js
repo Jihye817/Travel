@@ -15,13 +15,13 @@ const Tabbar = (props) => {
         {navigationState.routes.map((route, index) => {
             const focusAnim = position.interpolate({
                 inputRange: [index -1, index, index + 1],
-                outputRange: [0, 1, 0]
+                outputRange: [0, 1, 0],
             })
             var titleName = ['일정', '일기', '가계부']
             return (
                 <Tab
                     focusAnim={focusAnim}
-                    title={route.titleName[index]}
+                    title={titleName[index]}
                     onPress={() => navigation.navigate(route.routeName)}
                 />
             )

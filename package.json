@@ -58,7 +58,7 @@
     "jest": "24.8.0",
     "metro-react-native-babel-preset": "0.55.0",
     "react-test-renderer": "16.8.3",
-    "rn-nodeify": "^10.0.1"
+    "rn-nodeify": "github:tradle/rn-nodeify"
   },
   "jest": {
     "preset": "react-native"

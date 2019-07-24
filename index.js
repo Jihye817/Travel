@@ -6,6 +6,7 @@ import {AppRegistry} from 'react-native';
 import Splash from './app/pages/Splash';
 import Navigation from './app/pages/Navigation';
 import './shim';
+import crypto from 'crypto'
 
 class Index extends Component{
     constructor(props){
