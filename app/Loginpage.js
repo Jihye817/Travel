@@ -9,11 +9,33 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import common from './styles/Style';
+import {Login, Signup, SendVerifEmail, VerifyEmail} from '../serverRequest/member_request';
 
-export default class Login extends Component {
+export default class Loginpage extends Component {
   constructor(props) {
     super(props);
+    this.state = {email: '', pwd: ''}
   }
+
+  loginFunction (){
+    //Login(this.state.email, this.state.pwd);
+    fetch("http://106.10.53.87:8080/login",{
+      method: "POST",
+      body: JSON.stringify({
+        email: this.state.email,
+        pwd: this.state.pwd
+      }),
+      headers: {"Content-Type": "application/json"}
+    }).then(function(response){
+      return response.json();
+    })
+    .then(function(data){
+      console.log(data)
+    });
+
+    this.props.navigation.navigate('TriplistmainScreen');
+  }
+
   render() {
     return (
       <SafeAreaView style={common.orangecontainer}>
@@ -34,6 +56,8 @@ export default class Login extends Component {
                     keyboardType='email-address'
                     returnKeyType='next'
                     autoCorrect={false}
+                    value={this.state.email}
+                    onChangeText={(text) => this.setState({email : text})}
                     onSubmitEditing={() => this.refs.txtPassword.focus()}
                   />
                 </View>
@@ -47,12 +71,14 @@ export default class Login extends Component {
                     returnKeyType='go'
                     secureTextEntry
                     autoCorrect={false}
+                    value={this.state.pwd}
+                    onChangeText={(text) => this.setState({pwd : text})}
                     ref={'txtPassword'}
 
                   />
                 </View>
                 <View style={styles.btnwrap}>
-                  <TouchableOpacity style={styles.loginbtn} onPress={() => this.props.navigation.navigate('TriplistmainScreen')}><Text style={styles.btntext}>LOGIN</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.loginbtn} onPress={() => this.loginFunction()}><Text style={styles.btntext}>LOGIN</Text></TouchableOpacity>
                 </View>
                 <View style={styles.btnwrap}>
                   <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text style={styles.btntext}>네이버 아이디로 로그인</Text></TouchableOpacity>

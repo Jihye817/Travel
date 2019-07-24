@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation';
-import Login from '../Login';
+import Loginpage from '../Loginpage';
 import Register from '../pages/Register';
 import Found from '../pages/Found';
 import Triplist_main from '../pages/Triplist_main';
@@ -9,7 +9,7 @@ import Triptab from '../pages/Triptab';
 
 const MyStackNavigator = createStackNavigator({
     //로그인-회원가입-아이디패스워드찾기 페이지 이동 네비게이터
-    LoginScreen : {screen : Login,
+    LoginScreen : {screen : Loginpage,
        // navigationOptions:{header:null},
     },
     RegisterScreen : {screen : Register,
