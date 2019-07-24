@@ -6,43 +6,64 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import common from './styles/Style';
 
-export default class Login extends Component{
+export default class Login extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
       <SafeAreaView style={common.orangecontainer}>
-        <View style={styles.container}>
-          <View style={styles.whitebox}>
-            <View style={styles.logobox}>
-              <Image style={{width:'100%', height:'100%'}} resizeMode='contain' source={require('./assets/images/HATlogowithtxt.png')}></Image>
-            </View>
+        <View style={styles.container} behavior='padding'>
+          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              <View style={styles.whitebox}>
+                <View style={styles.logobox}>
+                  <Image style={{ width: '100%', height: '100%' }} resizeMode='contain' source={require('./assets/images/HATlogowithtxt.png')}></Image>
+                </View>
 
-            <View style={styles.infobox}>
-              <Text>ID</Text>
-              <TextInput style={styles.inputbox} placeholder='E-mail' placeholderTextColor='#D9D9D9' />
-            </View>
+                <View style={styles.infobox}>
+                  <Text>ID</Text>
+                  <TextInput
+                    style={styles.inputbox}
+                    placeholder='E-mail'
+                    placeholderTextColor='#D9D9D9'
+                    keyboardType='email-address'
+                    returnKeyType='next'
+                    autoCorrect={false}
+                    onSubmitEditing={() => this.refs.txtPassword.focus()}
+                  />
+                </View>
 
-            <View style={[styles.infobox, { paddingBottom: 10 }]}>
-              <Text>PASSWORD</Text>
-              <TextInput style={styles.inputbox} placeholder='password' placeholderTextColor='#D9D9D9' />
+                <View style={[styles.infobox, { paddingBottom: 10 }]}>
+                  <Text>PASSWORD</Text>
+                  <TextInput
+                    style={styles.inputbox}
+                    placeholder='password'
+                    placeholderTextColor='#D9D9D9'
+                    returnKeyType='go'
+                    secureTextEntry
+                    autoCorrect={false}
+                    ref={'txtPassword'}
+
+                  />
+                </View>
+                <View style={styles.btnwrap}>
+                  <TouchableOpacity style={styles.loginbtn} onPress={() => this.props.navigation.navigate('TriplistmainScreen')}><Text style={styles.btntext}>LOGIN</Text></TouchableOpacity>
+                </View>
+                <View style={styles.btnwrap}>
+                  <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text style={styles.btntext}>네이버 아이디로 로그인</Text></TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.bottom}>
+                <TouchableOpacity><Text style={styles.bottomtext} onPress={() => this.props.navigation.navigate('FoundScreen')}>ID/PW찾기</Text></TouchableOpacity>
+                <TouchableOpacity><Text style={styles.bottomtext} onPress={() => this.props.navigation.navigate('RegisterScreen')}>회원가입</Text></TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.btnwrap}>
-              <TouchableOpacity style={styles.loginbtn} onPress = {() => this.props.navigation.navigate('TriplistmainScreen')}><Text style={styles.btntext}>LOGIN</Text></TouchableOpacity>
-            </View>
-            <View style={styles.btnwrap}>
-              <TouchableOpacity style={[styles.loginbtn, { backgroundColor: '#19C959' }]}><Text style={styles.btntext}>네이버 아이디로 로그인</Text></TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.bottom}>
-            <TouchableOpacity><Text style={styles.bottomtext} onPress = {() => this.props.navigation.navigate('FoundScreen')}>ID/PW찾기</Text></TouchableOpacity>
-            <TouchableOpacity><Text style={styles.bottomtext} onPress = {() => this.props.navigation.navigate('RegisterScreen')}>회원가입</Text></TouchableOpacity>
-          </View>
+          </TouchableWithoutFeedback>
         </View>
       </SafeAreaView>
     );
@@ -51,6 +72,7 @@ export default class Login extends Component{
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,9 +80,10 @@ const styles = StyleSheet.create({
   },
   whitebox: {
     backgroundColor: '#FFF',
-    width: '80%',
-    height:'70%',
-    padding: 20,
+    justifyContent: 'center',
+    width: '80%', //height주면 위로 같이 밀려올라감 왜인지는 알수 없음
+    paddingTop: 20,
+    paddingHorizontal: 20,
   },
   logobox: {
     height: '30%',
@@ -69,9 +92,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   inputbox: {
-    marginTop:5,
+    marginTop: 5,
     backgroundColor: '#F2F2F2',
-    height: 40
+    height: 40,
   },
   loginbtn: {
     height: 45,
@@ -85,11 +108,11 @@ const styles = StyleSheet.create({
   },
   bottom: {
     width: '80%',
-    marginTop:3,
+    marginTop: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  bottomtext:{
+  bottomtext: {
     color: '#FFF'
   },
   btnwrap: {
