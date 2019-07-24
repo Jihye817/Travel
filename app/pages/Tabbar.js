@@ -6,7 +6,7 @@ const Tabbar = (props) => {
     const {navigationState, navigation, position} = props
     return (
         <View style ={{
-            height: 80,
+            height: 60,
             backgroundColor: '#FF7C5E',
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -17,10 +17,11 @@ const Tabbar = (props) => {
                 inputRange: [index -1, index, index + 1],
                 outputRange: [0, 1, 0]
             })
+            var titleName = ['일정', '일기', '가계부']
             return (
                 <Tab
                     focusAnim={focusAnim}
-                    title={route.routeName}
+                    title={route.titleName[index]}
                     onPress={() => navigation.navigate(route.routeName)}
                 />
             )

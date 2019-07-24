@@ -6,7 +6,8 @@ const Tab = ({focusAnim, title, onPress}) => {
         <TouchableOpacity onPress={onPress}>
             <Animated.View
                 style={{
-                    padding: 10,
+                    paddingVertical: 5,
+                    paddingHorizontal: 20,
                     backgroundColor: focusAnim.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['transparent', '#EE5A3C']
@@ -15,6 +16,7 @@ const Tab = ({focusAnim, title, onPress}) => {
             >
             <Animated.Text
                 style = {{
+                    fontSize: 18,
                     color: focusAnim.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['#FFF', '#FFF']
