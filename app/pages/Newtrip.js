@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Picker} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import CalendarPicker from 'react-native-calendar-picker';
 import common from '../styles/Style';
@@ -11,6 +11,7 @@ export default class Newtrip extends Component{
       marked : null,
       selectedStartDate: null,
       selectedEndDate: null,
+      value : "0"
     };
     this.onDateChange = this.onDateChange.bind(this);
   }
@@ -50,7 +51,28 @@ export default class Newtrip extends Component{
           </View>
           <View style={styles.inputwrap}>
             <Text>위치</Text>
-            <TextInput style={styles.inputbox} placeholder='place' placeholderTextColor='#D9D9D9' />
+            <View style={styles.pickerwrap}>
+              <Picker
+                selectedValue={this.state.value}
+                onValueChange={(itemValue, itemIndex) => this.setState({ value: itemValue })}
+                style={styles.pickerstyle}>
+                <Picker.Item label="위치" value="0" />
+                <Picker.Item label="지역 1" value="1" />
+                <Picker.Item label="지역 2" value="2" />
+                <Picker.Item label="지역 3" value="3" />
+                <Picker.Item label="지역 4" value="4" />
+              </Picker>
+            </View>
+            <View style={{flexDirection:'row', marginTop:5}}>
+              <View style={{padding:3, backgroundColor:'#FF7C5E',flexDirection:'row', marginRight:15,}}>
+                <Text>지역명</Text>
+                <TouchableOpacity style={{backgroundColor:'#FFF'}}><Text style={{color:'#FF7C5E'}}>X</Text></TouchableOpacity>
+              </View>
+              <View style={{padding:3, backgroundColor:'#FF7C5E',flexDirection:'row'}}>
+                <Text>지역명</Text>
+                <TouchableOpacity style={{backgroundColor:'#FFF'}}><Text style={{color:'#FF7C5E'}}>X</Text></TouchableOpacity>
+              </View>
+            </View>
           </View>
           <View style={[styles.inputwrap, {marginBottom:5,}]}>
             <Text>날짜</Text>
@@ -104,6 +126,21 @@ const styles = StyleSheet.create({
     height: 40,
     borderWidth:1,
     borderColor:'#D2D2D2'
+  },
+  pickerwrap: {
+      width:'100%',
+      marginTop: 10,
+      borderWidth: 1,
+      borderColor: '#FF7C5E',
+      backgroundColor: '#FFF'
+  },
+  pickerstyle : {
+      width: '100%',
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#FF7C5E'
   },
   btnwrap: {
     marginTop: 15,

@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   whitebox: {
     backgroundColor: '#FFF',
     width: '78%',
-    height:'88%',
+    height:580,
     padding: 20,
   },
   logobox: {

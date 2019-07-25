@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image, Picker, TextInput} from 'react-native';
 import common from '../styles/Style';
 import { ScrollView } from 'react-native-gesture-handler';
+import PhotoUpload from 'react-native-photo-upload';
 
 export default class Dwrite extends Component{
 
@@ -9,16 +10,20 @@ export default class Dwrite extends Component{
         super(props);
         this.state = {value : "0"}
     }
-
     
-
     render() {
         const TempOne =
             <View style={styles.templatewrap}>
-                <TouchableOpacity style={styles.photoselect}>
-                    <Text style={{ fontSize: 20, color: '#FFF' }}>Photo</Text>
-                </TouchableOpacity>
-                <TextInput style={styles.txtinput} placeholder='Enter title' placeholderTextColor='#D9D9D9' />
+                <PhotoUpload
+                    onPhotoSelect={avatar => {
+                        if (avatar) {
+                            console.log('image base 64 string', avatar)
+                        }
+                    }}
+                >
+                    <Image resizeMode='cover' style={{width:320, height:160,}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
+                </PhotoUpload>
+
                 <ScrollView style={styles.multiinput}>
                     <TextInput
                         multiline={true}

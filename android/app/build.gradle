@@ -138,6 +138,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fs')
+    implementation project(':react-native-image-resizer')
+    implementation project(':react-native-image-picker')
     implementation project(':react-native-randombytes')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')

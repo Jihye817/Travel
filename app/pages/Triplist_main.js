@@ -11,24 +11,31 @@ export default class Triplist_main extends Component{
         return(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen')}>
                 <View style = {{alignItems: 'center'}}>
-                    <View style = {{marginVertical: 15, backgroundColor: '#FFF', width: '80%', padding: 20, shadowColor: '#000', shadowRadius: 3, shadowOffset: {width:0, height: 2}, shadowOpacity : 0.7, elevation: 5}}>
-                        <View style={{flexDirection: 'row', alignItems:'center'}}>
-                            <View style={{flexDirection:'row'}}>
+                    <View style = {styles.listwrap}>
+                        <View style={styles.topwrap}>
+                            <View style={styles.txtrowcenter}>
                                 <Image style={{height:32, width:32}} resizeMode='contain' source={require('../assets/images/location_orange.png')}></Image>
-                                <Text style={{fontSize: 32, fontWeight: '400'}}>{item.month}</Text>
-                                <Text style={{fontSize: 32, fontWeight: '400', color:'#FF7C5E'}}>/</Text>
-                                <Text style={{fontSize: 32, fontWeight: '400'}}>{item.day}</Text>
+                                <Text style={{fontSize: 32}}> {item.key}</Text>
                             </View>
-                            <Text style={{fontSize: 24}}> {item.key}</Text>
+                            <View style={styles.txtrowcenter}>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.month}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>/</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.day}</Text>
+
+                                <Text style={{fontSize: 24, fontWeight: '400', color:'#FF7C5E'}}>~</Text>
+
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.month}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>/</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.day}</Text>
+                            </View>
                         </View>
-                        <View><Text>소제목은 여기에</Text></View>
+                        <View style={{marginLeft:20,}}><Text>소제목은 여기에</Text></View>
                         <View style={{alignItems:'flex-end'}}>
                             <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
                                 <Text style={{color:'#FFF'}}>삭제</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-
                 </View>
             </TouchableOpacity>
         )
@@ -85,6 +92,26 @@ const styles = StyleSheet.create({
     btnplus: {
         color: '#FFF',
         fontSize:30,
+    },
+    listwrap: {
+        marginVertical: 15, 
+        backgroundColor: '#FFF',
+        width: '80%',
+        padding: 20,
+        shadowColor: '#000',
+        shadowRadius: 3,
+        shadowOffset: {width:0, height: 2},
+        shadowOpacity : 0.7,
+        elevation: 5
+    },
+    topwrap: {
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'space-between'
+    },
+    txtrowcenter: {
+        flexDirection:'row',
+        alignItems:'center'
     }
 
 })
