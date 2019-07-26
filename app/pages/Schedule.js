@@ -53,8 +53,10 @@ export default class Schedule extends Component{
                                                     </View>
                                                 </CollapseHeader>
                                                 <CollapseBody>
-                                                    <View><View style={{width:150, height:150,}}>
-                                                    </View>
+                                                    <View>
+                                                        <View style={{width:150, height:150, backgroundColor:'#d2d2d2'}}>
+                                                            <Text>지도넣을곳</Text>
+                                                        </View>
                                                         <Text>{param.body}</Text></View>
                                                 </CollapseBody>
                                             </Collapse>
