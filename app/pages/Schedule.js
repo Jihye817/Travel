@@ -54,11 +54,6 @@ export default class Schedule extends Component{
                                                 </CollapseHeader>
                                                 <CollapseBody>
                                                     <View><View style={{width:150, height:150,}}>
-                                                    <fragment
-    android:id="@+id/map_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="com.naver.maps.map.MapFragment" />
                                                     </View>
                                                         <Text>{param.body}</Text></View>
                                                 </CollapseBody>
