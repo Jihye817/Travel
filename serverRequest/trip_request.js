@@ -12,9 +12,10 @@ ConvertDate 함수 설명
 ******************************/
 export function ConvertDate(date) {
     var result = new Date(Date.parse(date));
-    result = result.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
-    var cut = result.indexOf(' ');
-    var final = result.substring(0, cut);
+    var year = result.getFullYear();
+    var month = result.getMonth()+1;
+    var day = result.getDate();
+    var final = year + '-' + month + '-' + day;
     return final;
 }
 
@@ -145,3 +146,5 @@ GetSingleTrip(email, 1).then(function(data){
     console.log(typeof(JSON.parse(data).start));
 });
 */
+
+console.log(ConvertDate("2018-12-31T15:00:00.000Z"));
