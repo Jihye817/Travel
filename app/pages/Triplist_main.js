@@ -29,7 +29,7 @@ export default class Triplist_main extends Component{
                                 <Text style={{fontSize: 24, fontWeight: '400'}}>{item.day}</Text>
                             </View>
                         </View>
-                        <View style={{marginLeft:20,}}><Text>소제목은 여기에</Text></View>
+                        <View style={{marginLeft:30,}}><Text>위치, 위치, 위치</Text></View>
                         <View style={{alignItems:'flex-end'}}>
                             <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
                                 <Text style={{color:'#FFF'}}>삭제</Text>
@@ -50,7 +50,7 @@ export default class Triplist_main extends Component{
                 <View style = {{maxHeight : '85%'}}>
                     <ScrollView>
                         <FlatList
-                            data={[{ month: '4', day: '3', key: '속초' }, { month: '4', day: '4', key: '양평' }]}
+                            data={[{ month: '4', day: '3', key: '제목' }, { month: '4', day: '4', key: '제목' }]}
                             renderItem={this._renderItem}
                         />
                     </ScrollView>

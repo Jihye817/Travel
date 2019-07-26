@@ -18,12 +18,10 @@ export default class Schedule extends Component{
         contents: [
             {
                 date: '4/3',
-                money: '$15000',
                 body: 'this is component 1',
             },
             {
                 date: '4/4',
-                money: '$200000',
                 body: 'this is component 2',
             },
         ]
@@ -55,7 +53,14 @@ export default class Schedule extends Component{
                                                     </View>
                                                 </CollapseHeader>
                                                 <CollapseBody>
-                                                    <View><Text>{param.body}</Text></View>
+                                                    <View><View style={{width:150, height:150,}}>
+                                                    <fragment
+    android:id="@+id/map_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:name="com.naver.maps.map.MapFragment" />
+                                                    </View>
+                                                        <Text>{param.body}</Text></View>
                                                 </CollapseBody>
                                             </Collapse>
                                         </View>

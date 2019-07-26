@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   whitebox: {
     backgroundColor: '#FFF',
     width: '80%',
-    height:500,
+    height: 450,
     padding: 20,
   },
   logobox: {

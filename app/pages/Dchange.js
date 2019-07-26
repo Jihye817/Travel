@@ -4,7 +4,7 @@ import common from '../styles/Style';
 import { ScrollView } from 'react-native-gesture-handler';
 import PhotoUpload from 'react-native-photo-upload';
 
-export default class Dwrite extends Component{
+export default class Dchange extends Component{
 
     constructor(props) {
         super(props);

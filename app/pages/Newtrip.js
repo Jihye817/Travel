@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, TextInput, TouchableOpacity, Picker} from 'react
 import {Calendar} from 'react-native-calendars';
 import CalendarPicker from 'react-native-calendar-picker';
 import common from '../styles/Style';
+import ModalSelector from 'react-native-modal-selector'
 
 export default class Newtrip extends Component{
   constructor(props) {
@@ -11,7 +12,9 @@ export default class Newtrip extends Component{
       marked : null,
       selectedStartDate: null,
       selectedEndDate: null,
-      value : "0"
+      location1 : "위치",
+      location2 : "위치",
+      location3 : "위치",
     };
     this.onDateChange = this.onDateChange.bind(this);
   }
@@ -29,7 +32,7 @@ export default class Newtrip extends Component{
       });
     }
   }
-  
+
   render() {
 
     const {selectedStartDate, selectedEndDate} = this.state;
@@ -37,6 +40,25 @@ export default class Newtrip extends Component{
     const maxDate = new Date(2025, 12, 31);
     const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     const endDate = selectedEndDate ? selectedEndDate.toString() : '';
+    const data = [
+      {key: 0, section:true, label :'위치'},
+      {key: 1, label :'서울'},
+      {key: 2, label :'인천'},
+      {key: 3, label :'대전'},
+      {key: 4, label :'대구'},
+      {key: 5, label :'광주'},
+      {key: 6, label :'부산'},
+      {key: 7, label :'울산'},
+      {key: 31, label :'경기'},
+      {key: 32, label :'강원'},
+      {key: 33, label :'충북'},
+      {key: 34, label :'충남'},
+      {key: 35, label :'경북'},
+      {key: 36, label :'경남'},
+      {key: 37, label :'전북'},
+      {key: 38, label :'전남'},
+      {key: 39, label :'제주'}
+    ];
 
     return (
       <View style = {[common.greycontainer, {alignItems:'center'}]}>
@@ -51,28 +73,49 @@ export default class Newtrip extends Component{
           </View>
           <View style={styles.inputwrap}>
             <Text>위치</Text>
-            <View style={styles.pickerwrap}>
-              <Picker
-                selectedValue={this.state.value}
-                onValueChange={(itemValue, itemIndex) => this.setState({ value: itemValue })}
-                style={styles.pickerstyle}>
-                <Picker.Item label="위치" value="0" />
-                <Picker.Item label="지역 1" value="1" />
-                <Picker.Item label="지역 2" value="2" />
-                <Picker.Item label="지역 3" value="3" />
-                <Picker.Item label="지역 4" value="4" />
-              </Picker>
-            </View>
-            <View style={{flexDirection:'row', marginTop:5}}>
-              <View style={{padding:3, backgroundColor:'#FF7C5E',flexDirection:'row', marginRight:15,}}>
-                <Text>지역명</Text>
-                <TouchableOpacity style={{backgroundColor:'#FFF'}}><Text style={{color:'#FF7C5E'}}>X</Text></TouchableOpacity>
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+
+              <View style={styles.pickerwrap}>
+                <ModalSelector
+                  data={data}
+                  initValue="위치"
+                  onChange={(option) => { this.setState({ location1: option.label }) }}
+                >
+                  <TextInput
+                    style={{color:'#333'}}
+                    editable={false}
+                    value={this.state.location1}
+                  ></TextInput>
+                </ModalSelector>
               </View>
-              <View style={{padding:3, backgroundColor:'#FF7C5E',flexDirection:'row'}}>
-                <Text>지역명</Text>
-                <TouchableOpacity style={{backgroundColor:'#FFF'}}><Text style={{color:'#FF7C5E'}}>X</Text></TouchableOpacity>
+              <View style={styles.pickerwrap}>
+                <ModalSelector
+                  data={data}
+                  initValue="위치"
+                  onChange={(option) => { this.setState({ location2: option.label }) }}
+                >
+                  <TextInput
+                    style={{color:'#333'}}
+                    editable={false}
+                    value={this.state.location2}
+                  ></TextInput>
+                </ModalSelector>
+              </View>
+              <View style={styles.pickerwrap}>
+                <ModalSelector
+                  data={data}
+                  initValue="위치"
+                  onChange={(option) => { this.setState({ location3: option.label }) }}
+                >
+                  <TextInput
+                    style={{color:'#333'}}
+                    editable={false}
+                    value={this.state.location3}
+                  ></TextInput>
+                </ModalSelector>
               </View>
             </View>
+            
           </View>
           <View style={[styles.inputwrap, {marginBottom:5,}]}>
             <Text>날짜</Text>
@@ -100,7 +143,6 @@ export default class Newtrip extends Component{
     );
   }
 }
-
 const styles = StyleSheet.create({
   one: {
     width: '100%',
@@ -128,19 +170,13 @@ const styles = StyleSheet.create({
     borderColor:'#D2D2D2'
   },
   pickerwrap: {
-      width:'100%',
+      width:'30%',
       marginTop: 10,
+      justifyContent:'center',
+      alignItems:'center',
       borderWidth: 1,
       borderColor: '#FF7C5E',
       backgroundColor: '#FFF'
-  },
-  pickerstyle : {
-      width: '100%',
-      height: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: '#FF7C5E'
   },
   btnwrap: {
     marginTop: 15,
@@ -153,6 +189,24 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems: 'center',
     backgroundColor: '#FF7C5E'
+  },
+  locationwrap:{
+    paddingVertical:3,
+    paddingHorizontal:10,
+    backgroundColor:'#FF7C5E',
+    flexDirection:'row',
+    marginRight:15,
+    borderRadius: 50,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  xbtn:{
+    backgroundColor:'#FFF',
+    height:16,
+    width:16,
+    borderRadius:8,
+    justifyContent:'center',
+    alignItems:'center'
   },
   calendarwrap: {
     alignItems: 'center',

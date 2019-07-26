@@ -24,7 +24,7 @@ export default class Diary extends Component{
                         </View>
                         <View><Text>소제목은 여기에</Text></View>
                         <View style={{alignItems:'flex-end'}}>
-                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
+                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=>this.props.navigation.navigate('DchangeScreen')}>
                                 <Text style={{color:'#FFF'}}>수정</Text>
                             </TouchableOpacity>
                         </View>
@@ -89,7 +89,9 @@ export default class Diary extends Component{
                 </View>
                 
                 <View style = {styles.btnwrap}>
-                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.setState({popupdata:true})}></TouchableOpacity>
+                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.setState({popupdata:true})}>
+                        <Text style={styles.btnplus}>+</Text>
+                    </TouchableOpacity>
                 </View>
                 
                 <Modal isVisible={this.state.popupdata}>
@@ -146,6 +148,10 @@ const styles = StyleSheet.create({
         height:'15%',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    btnplus: {
+        color: '#FFF',
+        fontSize:30,
     },
     circlebtn:{
         backgroundColor: '#FF7C5E',
