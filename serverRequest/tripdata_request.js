@@ -1,16 +1,16 @@
 const request = require('request');
 
 /******************************
-GetSchedule 함수 설명
-email, tripID에 해당하는 여행의 일정 반환
+GetTripData 함수 설명
+email, tripID에 해당하는 여행의 type(schedule, expense, diary) 반환
 실패했을 때:
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
 ******************************/
-function GetSchedule(email, tripID) {
+function GetTripData(email, tripID, type) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/schedule',
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
             method: "GET"
         }, function (error, response, body){
             if (error) {
@@ -29,22 +29,22 @@ function GetSchedule(email, tripID) {
 }
 
 /******************************
-PostSchedule 함수 설명
-email, tripID에 해당하는 여행의 일정 만들기
+PostTripData 함수 설명
+email, tripID에 해당하는 여행의 일정/가계부/일기 만들기
 실패했을 때:
     503: 서버상 오류
 ******************************/
-function PostSchedule(email, tripID, data) {
+function PostTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/schedule',
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             json: true,
             body: {
-                'schedule': data
+                'data': data
             }
         }, function (error, response, body){
             if (error) {
@@ -60,23 +60,23 @@ function PostSchedule(email, tripID, data) {
 }
 
 /******************************
-UpdateSchedule 함수 설명
-email, tripID에 해당하는 여행의 일정을 새롭게 수정
+UpdateTripData 함수 설명
+email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수정
 실패했을 때:
     503: 서버상 오류
     400: 사용자가 존재하지 않음
 ******************************/
-function UpdateSchedule(email, tripID, data) {
+function UpdateTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/schedule',
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
             },
             json: true,
             body: {
-                'schedule': data
+                'data': data
             }
         }, function (error, response, body){
             if (error) {
@@ -91,7 +91,7 @@ function UpdateSchedule(email, tripID, data) {
     });
 }
 
-module.exports = [GetSchedule, PostSchedule, UpdateSchedule];
+module.exports = [GetTripData, PostTripData, UpdateTripData];
 
 
 //Example code
@@ -99,6 +99,8 @@ module.exports = [GetSchedule, PostSchedule, UpdateSchedule];
 /*
 var email = 'unme0101@naver.com';
 var tripID = 4;
+var type = 'schedule'   // diary, expense도 됨
+
 var data = {
     "2019-01-01": [
         {type: 'tour', id: 1},
@@ -110,15 +112,15 @@ var data = {
 */
 
 /*
-PostSchedule(email, tripID, data).then(function(result){
+PostTripData(email, tripID, type, data).then(function(result){
     console.log(result);
 });
 
-GetSchedule(email, tripID).then(function(data){
+GetTripData(email, tripID, type).then(function(data){
     console.log(data);
 });
 
-UpdateSchedule(email, tripID, data).then(function(result) {
+UpdateTripData(email, tripID, type, data).then(function(result) {
     console.log(result);
 });
 */
