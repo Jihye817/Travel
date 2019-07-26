@@ -32,7 +32,7 @@ export default class Loginpage extends Component {
       console.log(data)
     });
 
-    this.props.navigation.navigate('TriplistmainScreen');
+    this.props.navigation.navigate('TriplistmainScreen', {email: this.state.email});
   }
 
   render() {

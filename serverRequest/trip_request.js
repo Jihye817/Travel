@@ -1,7 +1,7 @@
 // login & signup
 const request = require('request');
 
-function ValidateEmail(email) {
+export function ValidateEmail(email) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
 }
@@ -10,7 +10,7 @@ function ValidateEmail(email) {
 ConvertDate 함수 설명
 여행 정보를 가져올 때 날짜를 "2019-08-04T15:00:00.000Z" 형태로 가져오는데 이는 UTC 시간이라서 한국 기준으로 yyyy-MM-dd 형태로 만들어주는 함수
 ******************************/
-function ConvertDate(date) {
+export function ConvertDate(date) {
     var result = new Date(Date.parse(date));
     result = result.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
     var cut = result.indexOf(' ');
@@ -25,7 +25,7 @@ email을 가진 사용자가 저장한 여행들의 array 반환
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
 ******************************/
-function GetTrips(email) {
+export function GetTrips(email) {
     return new Promise(function(resolve, reject) {
         if (!ValidateEmail(email)) {
             resolve('invalid email');
@@ -53,7 +53,7 @@ email과 tripID에 해당하는 여행에 관한 정보를 반환
     404: 해당 여행을 찾을 수 없음
     503: 서버상 오류
 ******************************/
-function GetSingleTrip(email, tripID) {
+export function GetSingleTrip(email, tripID) {
     return new Promise(function(resolve, reject) {
         if (!ValidateEmail(email)) {
             resolve('invalid email');
@@ -88,7 +88,7 @@ email을 가진 사용자로 새로운 여행을 생성해 저장
     400: 이름 / 시작*끝 날짜 / 지역이 제대로 지정되지 않음
     503: 서버상 오류
 ******************************/
-function PostTrip(email, name, start, end, area1, area2=null, area3=null) {
+export function PostTrip(email, name, start, end, area1, area2=null, area3=null) {
     return new Promise(function(resolve, reject) {
         if (!ValidateEmail(email)) resolve('invalid email');
         else {
@@ -121,7 +121,7 @@ function PostTrip(email, name, start, end, area1, area2=null, area3=null) {
     });
 }
 
-module.exports=[ConvertDate, GetTrips, GetSingleTrip, PostTrip];
+//module.exports=[ConvertDate, GetTrips, GetSingleTrip, PostTrip];
 
 /*
 Example code for the function

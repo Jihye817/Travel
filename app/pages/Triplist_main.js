@@ -1,10 +1,33 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, StatusBar, FlatList, TouchableOpacity, ScrollView, Image} from 'react-native'
 import common from '../styles/Style';
+//import {GetTrips} from '../../serverRequest/trip_request';
+//const tripReq = require('../../serverRequest/trip_request');
+import * as tripFunc from '../../serverRequest/trip_request';
 
 export default class Triplist_main extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            tripData: [],
+        }
+    }
+
+    componentDidMount(){
+        const email = this.props.navigation.getParam('email', 'nothing sent');
+        console.log(email);
+        this.getTripFunction(email);
+    }
+
+    getTripFunction(email) {
+        tripFunc.GetTrips(email).then(function(response) {
+            console.log(email);
+            return response;
+        })
+        .then((data) => {
+            this.setState({tripData : data})
+            console.log(this.state.tripData) //data가 제대로 나오는지 확인하기 위함
+        });
     }
 
     _renderItem =({item}) => {//Flatlist list 내용
@@ -15,18 +38,18 @@ export default class Triplist_main extends Component{
                         <View style={styles.topwrap}>
                             <View style={styles.txtrowcenter}>
                                 <Image style={{height:32, width:32}} resizeMode='contain' source={require('../assets/images/location_orange.png')}></Image>
-                                <Text style={{fontSize: 32}}> {item.key}</Text>
+                                <Text style={{fontSize: 32}}> 제목</Text>
                             </View>
                             <View style={styles.txtrowcenter}>
-                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.month}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>4</Text>
                                 <Text style={{fontSize: 24, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.day}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>4</Text>
 
                                 <Text style={{fontSize: 24, fontWeight: '400', color:'#FF7C5E'}}>~</Text>
 
-                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.month}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>4</Text>
                                 <Text style={{fontSize: 24, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 24, fontWeight: '400'}}>{item.day}</Text>
+                                <Text style={{fontSize: 24, fontWeight: '400'}}>5</Text>
                             </View>
                         </View>
                         <View style={{marginLeft:30,}}><Text>위치, 위치, 위치</Text></View>
@@ -50,13 +73,14 @@ export default class Triplist_main extends Component{
                 <View style = {{maxHeight : '85%'}}>
                     <ScrollView>
                         <FlatList
-                            data={[{ month: '4', day: '3', key: '제목' }, { month: '4', day: '4', key: '제목' }]}
+                            //data={[{ month: '4', day: '3', key: '제목' }, { month: '4', day: '4', key: '제목' }]}
+                            data={this.state.tripData}
                             renderItem={this._renderItem}
                         />
                     </ScrollView>
                 </View>
                 <View style = {styles.btnwrap}>
-                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen')}>
+                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen', {email: email})}>
                         <Text style={styles.btnplus}>+</Text>
                     </TouchableOpacity>
                 </View>
