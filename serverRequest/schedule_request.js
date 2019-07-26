@@ -93,18 +93,19 @@ function UpdateSchedule(email, tripID, data) {
 
 module.exports = [GetSchedule, PostSchedule, UpdateSchedule];
 
-/*
+
 //Example code
 
+/*
 var email = 'unme0101@naver.com';
 var tripID = 4;
 var data = {
-    "2019-01-01": {
-        1: {type: 'tour', id: 1},
-        2: {type: 'tour', id: 2},
-        3: {type: 'eat', id: 3},
-        4: {type: 'tour', id: 5}
-    }
+    "2019-01-01": [
+        {type: 'tour', id: 1},
+        {type: 'tour', id: 2},
+        {type: 'eat', id: 3},
+        {type: 'tour', id: 5}
+    ]
 };
 */
 
