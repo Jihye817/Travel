@@ -20,7 +20,10 @@ function ConvertDate(date) {
 
 /******************************
 GetTrips 함수 설명
-email을 가진 사용자가 저장한 여행 반환
+email을 가진 사용자가 저장한 여행들의 array 반환
+실패했을 때:
+    404: 해당 사용자의 여행이 존재하지 않음
+    503: 서버상 오류
 ******************************/
 function GetTrips(email) {
     return new Promise(function(resolve, reject) {
@@ -34,7 +37,7 @@ function GetTrips(email) {
             }, function (error, response, body){
                 if (error) {
                     console.log(error);
-                    resolve(null);
+                    resolve(response.statusCode);
                 }
                 else {
                     resolve(body);
@@ -43,7 +46,13 @@ function GetTrips(email) {
         }
     });
 }
-
+/******************************
+GetSingleTrip 함수 설명
+email과 tripID에 해당하는 여행에 관한 정보를 반환
+실패했을 때:
+    404: 해당 여행을 찾을 수 없음
+    503: 서버상 오류
+******************************/
 function GetSingleTrip(email, tripID) {
     return new Promise(function(resolve, reject) {
         if (!ValidateEmail(email)) {
@@ -60,7 +69,10 @@ function GetSingleTrip(email, tripID) {
                 }
                 else {
                     console.log('response: ' + response.statusCode, body);
-                    resolve(body);
+                    if (response.statusCode != 200) {
+                        resolve(response.statusCode);
+                    }
+                    else resolve(body);
                 }
             });
         }
@@ -70,6 +82,11 @@ function GetSingleTrip(email, tripID) {
 /******************************
 PostTrips 함수 설명
 email을 가진 사용자로 새로운 여행을 생성해 저장
+날짜는 2019-01-01형태로 보내기
+성공하면 statusCode 201 반환
+실패했을 때:
+    400: 이름 / 시작*끝 날짜 / 지역이 제대로 지정되지 않음
+    503: 서버상 오류
 ******************************/
 function PostTrip(email, name, start, end, area1, area2=null, area3=null) {
     return new Promise(function(resolve, reject) {
