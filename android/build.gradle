@@ -29,5 +29,9 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven {
+            // 네이버 지도 저장소
+            url 'https://navercorp.bintray.com/maps'
+        }
     }
 }

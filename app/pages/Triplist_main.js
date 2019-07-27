@@ -37,8 +37,34 @@ export default class Triplist_main extends Component{
                 return '서울';
             case 2:
                 return '인천';
+            case 3:
+                return '대전';
+            case 4:
+                return '대구';
+            case 5:
+                return '광주';
+            case 6:
+                return '부산';
             case 7:
                 return '울산';
+            case 31:
+                return '경기';
+            case 32:
+                return '강원';
+            case 33:
+                return '충북';
+            case 34:
+                return '충남';
+            case 35:
+                return '경북';
+            case 36:
+                return '경남';
+            case 37:
+                return '전북';
+            case 38:
+                return '전남';
+            case 39:
+                return '제주';
         }
     }
 
@@ -54,21 +80,13 @@ export default class Triplist_main extends Component{
                             </View>
                         </View>
                         <View style={[styles.txtrowcenter, {marginLeft:30, marginVertical:5}]}>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>{item.start.substring(2,4)}</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>{item.start.substring(5,7)}</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>{item.start.substring(8,10)}</Text>
-
+                                <Text style={{fontSize: 22, fontWeight: '400'}}>{tripFunc.ConvertDate(item.start)}</Text>
+                                
                                 <Text style={{fontSize: 22, fontWeight: '400', color:'#FF7C5E'}}>~</Text>
 
                                 <Text style={{fontSize: 22, fontWeight: '400'}}>{tripFunc.ConvertDate(item.end)}</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>{item.end.substring(5,7)}</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>/</Text>
-                                <Text style={{fontSize: 22, fontWeight: '400'}}>{item.end.substring(8,10)}</Text>
                             </View>
-                        <View style={{marginLeft:30,}}><Text>{this.areaFunction(item.area1)}, {item.area2},{item.area3}</Text></View>
+                        <View style={{marginLeft:30,}}><Text>{this.areaFunction(item.area1)}  {item.area2}  {item.area3}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
                             <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
                                 <Text style={{color:'#FFF'}}>삭제</Text>
