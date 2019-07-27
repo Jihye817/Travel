@@ -54,7 +54,7 @@ export default class Schedule extends Component{
                                                 </CollapseHeader>
                                                 <CollapseBody>
                                                     <View>
-                                                        <View style={{width:150, height:150, backgroundColor:'#d2d2d2'}}>
+                                                        <View style={{width:'100%', height:150, backgroundColor:'#d2d2d2'}}>
                                                         </View>
                                                         <Text>{param.body}</Text></View>
                                                 </CollapseBody>
