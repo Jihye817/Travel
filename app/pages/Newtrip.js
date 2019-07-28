@@ -4,19 +4,27 @@ import {Calendar} from 'react-native-calendars';
 import CalendarPicker from 'react-native-calendar-picker';
 import common from '../styles/Style';
 import ModalSelector from 'react-native-modal-selector'
+import * as tripFunc from '../../serverRequest/trip_request';
 
 export default class Newtrip extends Component{
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       marked : null,
+      name : '',
       selectedStartDate: null,
       selectedEndDate: null,
-      location1 : "위치",
-      location2 : "위치",
-      location3 : "위치",
+      area1 : "위치",
+      area2 : "위치",
+      area3 : "위치",
     };
     this.onDateChange = this.onDateChange.bind(this);
+  }
+
+  componentDidMount(){
+    const email = this.props.navigation.getParam('email', 'nothing sent');
+    this.setState({email: email}); //다음 페이지로 넘기기 위한 이메일 저장
   }
 
   onDateChange(date, type) {
@@ -31,6 +39,17 @@ export default class Newtrip extends Component{
         selectedEndDate: null,
       });
     }
+  }
+
+  saveTripFunction(email, name, selectedStartDate, selectedEndDate, area1, area2, area3){
+    tripFunc.PostTrip(email, name, selectedStartDate, selectedEndDate, area1, area2, area3).then(function(response){
+      return response.json();
+    })
+    .then(function(data){
+      console.log(data)
+    });
+    
+    this.props.navigation.goBack() //창 꺼지게 하기
   }
 
   render() {
@@ -69,7 +88,12 @@ export default class Newtrip extends Component{
         <View style = {styles.second}>
           <View style={styles.inputwrap}>
             <Text>제목</Text>
-            <TextInput style={styles.inputbox} placeholder='Title' placeholderTextColor='#D9D9D9' />
+            <TextInput
+              style={styles.inputbox}
+              value={this.state.name}
+              onChangeText={(text) => this.setState({name : text})}
+              placeholder='Title'
+              placeholderTextColor='#D9D9D9' />
           </View>
           <View style={styles.inputwrap}>
             <Text>위치</Text>
@@ -79,12 +103,12 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ location1: option.label }) }}
+                  onChange={(option) => { this.setState({ area1: option.label }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
                     editable={false}
-                    value={this.state.location1}
+                    value={this.state.area1}
                   ></TextInput>
                 </ModalSelector>
               </View>
@@ -92,12 +116,12 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ location2: option.label }) }}
+                  onChange={(option) => { this.setState({ area2: option.label }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
                     editable={false}
-                    value={this.state.location2}
+                    value={this.state.area2}
                   ></TextInput>
                 </ModalSelector>
               </View>
@@ -105,12 +129,12 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ location3: option.label }) }}
+                  onChange={(option) => { this.setState({ area3: option.label }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
                     editable={false}
-                    value={this.state.location3}
+                    value={this.state.area3}
                   ></TextInput>
                 </ModalSelector>
               </View>

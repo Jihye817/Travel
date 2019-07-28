@@ -9,6 +9,7 @@ export default class Triplist_main extends Component{
     constructor(props){
         super(props);
         this.state = {
+            email: '',
             tripData: [],
         }
     }
@@ -16,6 +17,7 @@ export default class Triplist_main extends Component{
     componentDidMount(){
         const email = this.props.navigation.getParam('email', 'nothing sent');
         console.log(email);
+        this.setState({email: email}); //다음 페이지로 넘기기 위한 이메일 저장
         this.getTripFunction(email);
     }
 
@@ -26,6 +28,7 @@ export default class Triplist_main extends Component{
             return JSON.parse(response)
         })
         .then((data) => {
+            
             this.setState({tripData : data})
             console.log(this.state.tripData) //data가 제대로 나오는지 확인하기 위함
         }).done();
@@ -70,7 +73,7 @@ export default class Triplist_main extends Component{
 
     _renderItem =({item}) => {//Flatlist list 내용
         return(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen', {email: this.state.email})}>
                 <View style = {{alignItems: 'center'}}>
                     <View style = {styles.listwrap}>
                         <View style={styles.topwrap}>
@@ -114,7 +117,7 @@ export default class Triplist_main extends Component{
                     </ScrollView>
                 </View>
                 <View style = {styles.btnwrap}>
-                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen', {email: email})}>
+                    <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen', {email: this.state.email})}>
                         <Text style={styles.btnplus}>+</Text>
                     </TouchableOpacity>
                 </View>

@@ -3,6 +3,7 @@ import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Picker, Tex
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import common from '../styles/Style';
 import Modal from 'react-native-modal';
+import MapView, {Marker} from 'react-native-maps';
 
 export default class Schedule extends Component{
     constructor(props){
@@ -55,6 +56,7 @@ export default class Schedule extends Component{
                                                 <CollapseBody>
                                                     <View>
                                                         <View style={{width:'100%', height:150, backgroundColor:'#d2d2d2'}}>
+                                                            <MapView style={{width:'100%', height:150,}}></MapView>
                                                         </View>
                                                         <Text>{param.body}</Text></View>
                                                 </CollapseBody>
