@@ -18,6 +18,9 @@ export default class Newtrip extends Component{
       area1 : "위치",
       area2 : "위치",
       area3 : "위치",
+      areakey1 : '0',
+      areakey2 : '0',
+      areakey3 : '0',
     };
     this.onDateChange = this.onDateChange.bind(this);
   }
@@ -30,19 +33,19 @@ export default class Newtrip extends Component{
   onDateChange(date, type) {
     if(type === 'END_DATE') {
       this.setState({
-        selectedEndDate: date,
+        selectedEndDate: tripFunc.ConvertDate(date),
       });
     }
     else{
       this.setState({
-        selectedStartDate: date,
+        selectedStartDate: tripFunc.ConvertDate(date),
         selectedEndDate: null,
       });
     }
   }
 
-  saveTripFunction(email, name, selectedStartDate, selectedEndDate, area1, area2, area3){
-    tripFunc.PostTrip(email, name, selectedStartDate, selectedEndDate, area1, area2, area3).then(function(response){
+  saveTripFunction(email, name, selectedStartDate, selectedEndDate, area1key, area2key, area3key){
+    tripFunc.PostTrip(email, name, selectedStartDate, selectedEndDate, area1key, area2key, area3key).then(function(response){
       return response.json();
     })
     .then(function(data){
@@ -103,7 +106,7 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ area1: option.label }) }}
+                  onChange={(option) => { this.setState({ area1: option.label, areakey1: option.key }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
@@ -116,7 +119,7 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ area2: option.label }) }}
+                  onChange={(option) => { this.setState({ area2: option.label, areakey2: option.key }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
@@ -129,7 +132,7 @@ export default class Newtrip extends Component{
                 <ModalSelector
                   data={data}
                   initValue="위치"
-                  onChange={(option) => { this.setState({ area3: option.label }) }}
+                  onChange={(option) => { this.setState({ area3: option.label, areakey3: option.key }) }}
                 >
                   <TextInput
                     style={{color:'#333'}}
@@ -157,7 +160,7 @@ export default class Newtrip extends Component{
             </CalendarPicker>
           </View>
           <View style={styles.btnwrap}>
-            <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.goBack()}>
+            <TouchableOpacity style={styles.btn} onPress={()=>this.saveTripFunction(this.state.email, this.state.name, this.state.selectedStartDate, this.state.selectedEndDate, this.state.areakey1, this.state.areakey2, this.state.areakey3)}>
               <Text style={{color:'#FFF', fontSize: 18,}}>저장</Text>
             </TouchableOpacity>
           </View>

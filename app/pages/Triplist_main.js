@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, StatusBar, FlatList, TouchableOpacity, ScrollView, Image} from 'react-native'
 import common from '../styles/Style';
-//import {GetTrips} from '../../serverRequest/trip_request';
-//const tripReq = require('../../serverRequest/trip_request');
 import * as tripFunc from '../../serverRequest/trip_request';
 
 export default class Triplist_main extends Component{
@@ -73,7 +71,7 @@ export default class Triplist_main extends Component{
 
     _renderItem =({item}) => {//Flatlist list 내용
         return(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen', {email: this.state.email})}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen', {email: this.state.email, id: item._id})}>
                 <View style = {{alignItems: 'center'}}>
                     <View style = {styles.listwrap}>
                         <View style={styles.topwrap}>
@@ -89,7 +87,7 @@ export default class Triplist_main extends Component{
 
                                 <Text style={{fontSize: 22, fontWeight: '400'}}>{tripFunc.ConvertDate(item.end)}</Text>
                             </View>
-                        <View style={{marginLeft:30,}}><Text>{this.areaFunction(item.area1)}  {item.area2}  {item.area3}</Text></View>
+                        <View style={{marginLeft:30,}}><Text>{this.areaFunction(item.area1)}  {this.areaFunction(item.area2)}  {this.areaFunction(item.area3)}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
                             <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
                                 <Text style={{color:'#FFF'}}>삭제</Text>
@@ -103,18 +101,21 @@ export default class Triplist_main extends Component{
 
     render(){
         return (
-            <View style={[common.greycontainer,{flex:1}]}>
+            <View style={[common.greycontainer,{flex:1, height:'100%',}]}>
                 <View style ={styles.one} >
                     <Text style={styles.toptext}>여행 리스트</Text>
                 </View>
-                <View style = {{maxHeight : '85%'}}>
-                    <ScrollView>
-                        <FlatList
-                            //data={[{ month: '4', day: '3', key: '제목' }, { month: '4', day: '4', key: '제목' }]}
-                            data={this.state.tripData}
-                            renderItem={this._renderItem}
-                        />
-                    </ScrollView>
+                <View style = {{height:'75%', alignItems:'center', justifyContent: 'center', marginTop: 10}}>
+                    <View style={{ width: '95%', paddingBottom: 10, backgroundColor: '#D2D2D2'}}>
+                        <ScrollView>
+                            <FlatList
+                                //data={[{ month: '4', day: '3', key: '제목' }, { month: '4', day: '4', key: '제목' }]}
+                                data={this.state.tripData}
+                                renderItem={this._renderItem}
+                            />
+                        </ScrollView>
+                    </View>
+                    
                 </View>
                 <View style = {styles.btnwrap}>
                     <TouchableOpacity style = {styles.circlebtn} onPress={() => this.props.navigation.navigate('NewtripScreen', {email: this.state.email})}>
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
       color:'#FFF',
     },
     btnwrap: {
+        marginTop:20,
         justifyContent: 'center',
         alignItems: 'center',
     },

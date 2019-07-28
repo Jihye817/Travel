@@ -7,7 +7,7 @@ email, tripID에 해당하는 여행의 type(schedule, expense, diary) 반환
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
 ******************************/
-function GetTripData(email, tripID, type) {
+export function GetTripData(email, tripID, type) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
@@ -34,7 +34,7 @@ email, tripID에 해당하는 여행의 일정/가계부/일기 만들기
 실패했을 때:
     503: 서버상 오류
 ******************************/
-function PostTripData(email, tripID, type, data) {
+export function PostTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
@@ -66,7 +66,7 @@ email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수
     503: 서버상 오류
     400: 사용자가 존재하지 않음
 ******************************/
-function UpdateTripData(email, tripID, type, data) {
+export function UpdateTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
@@ -91,7 +91,7 @@ function UpdateTripData(email, tripID, type, data) {
     });
 }
 
-module.exports = [GetTripData, PostTripData, UpdateTripData];
+//module.exports = [GetTripData, PostTripData, UpdateTripData];
 
 
 //Example code
