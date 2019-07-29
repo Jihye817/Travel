@@ -5,7 +5,7 @@ GetInfoTypeArea 함수 설명
 tour, eat, stay 타입에서 해당 지역의 장소들의 이름, 주소 반환
 type: 'tour' / 'eat' / 'stay'
 ******************************/
-function GetInfoTypeArea(type, area) {
+export function GetInfoTypeArea(type, area) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/info/area/" + type + '/' + area,
@@ -26,7 +26,7 @@ function GetInfoTypeArea(type, area) {
 GetFullInfoTypeID 함수 설명
 tour, eat, stay 타입에서 해당 종류의 해당 id를 가진 장소의 이름, 정보, 주소, 사진 url 반환
 ******************************/
-function GetFullInfoTypeID(type, id) {
+export function GetFullInfoTypeID(type, id) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/info/full/" + type + '/' + id,
@@ -47,7 +47,7 @@ function GetFullInfoTypeID(type, id) {
 GetInfoTypeID 함수 설명
 tour, eat, stay 타입에서 해당 종류의 해당 id를 가진 장소의 이름, 주소 반환
 ******************************/
-function GetInfoTypeID(type, id) {
+export function GetInfoTypeID(type, id) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/info/brief/" + type + '/' + id,
@@ -64,7 +64,7 @@ function GetInfoTypeID(type, id) {
     });
 }
 
-module.exports=[GetInfoTypeArea, GetFullInfoTypeID, GetInfoTypeID];
+//module.exports=[GetInfoTypeArea, GetFullInfoTypeID, GetInfoTypeID];
 
 /*
 Example Code

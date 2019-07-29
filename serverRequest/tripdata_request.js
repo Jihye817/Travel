@@ -30,7 +30,7 @@ export function GetTripData(email, tripID, type) {
 
 /******************************
 PostTripData 함수 설명
-email, tripID에 해당하는 여행의 일정/가계부/일기 만들기
+email, tripID에 해당하는 여행의 일정/가계부/일기 데베에 저장하기
 실패했을 때:
     503: 서버상 오류
 ******************************/

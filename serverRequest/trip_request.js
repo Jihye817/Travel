@@ -163,7 +163,7 @@ function EditTrip(email, tripID, newName, newStart, newEnd, newArea1, newArea2, 
     });
 }
 
-module.exports=[ConvertDate, GetTrips, GetSingleTrip, PostTrip, EditTrip];
+//module.exports=[ConvertDate, GetTrips, GetSingleTrip, PostTrip, EditTrip];
 
 
 //Example code for the function
