@@ -2,7 +2,8 @@ const request = require('request');
 
 /******************************
 GetTripData 함수 설명
-email, tripID에 해당하는 여행의 type(schedule, expense, diary) 반환
+email, tripID에 해당하는 여행의 type(schedule / expense) 반환
+type: 'schedule' / 'expense'
 실패했을 때:
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
@@ -30,7 +31,8 @@ function GetTripData(email, tripID, type) {
 
 /******************************
 PostTripData 함수 설명
-email, tripID에 해당하는 여행의 일정/가계부/일기 만들기
+email, tripID에 해당하는 여행의 일정/가계부를 DB에 저장
+type: 'schedule' / 'expense'
 실패했을 때:
     503: 서버상 오류
 ******************************/
@@ -61,7 +63,8 @@ function PostTripData(email, tripID, type, data) {
 
 /******************************
 UpdateTripData 함수 설명
-email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수정
+email, tripID에 해당하는 여행의 일정/가계부 수정한 결과를 데베에 저장
+바뀌지 않은 부분도 모두 넣어줘야 함
 실패했을 때:
     503: 서버상 오류
     400: 사용자가 존재하지 않음
