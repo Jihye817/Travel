@@ -6,6 +6,9 @@ import Modal from 'react-native-modal';
 import MapView, {Marker} from 'react-native-maps';
 import * as tripdataFunc from '../../serverRequest/tripdata_request';
 import * as infodataFunc from '../../serverRequest/info_request';
+import MapViewDirections from 'react-native-maps-directions';
+
+const GOOGLE_MAPS_APIKEY ='AIzaSyDvIHlMNDs3IG6UO_6XbRy4PwkOPAXfaUg';
 
 export default class Schedule extends Component{
     constructor(props){
@@ -21,7 +24,13 @@ export default class Schedule extends Component{
             tripDates : [],
             tripInfo: [],
             tripFull: [],
-            }
+            lats: [],
+            lons:[],
+            originlat:'',
+            originlon:'',
+            destlat:'',
+            destlon:'',
+        }
     }
 
     data = {
@@ -93,8 +102,13 @@ export default class Schedule extends Component{
             return JSON.parse(respose);
         })
         .then((data)=>{
-            this.setState({tripFull: this.state.tripInfo.concat([data])})
-            console.log("this is full", this.state.tripFull)
+            this.setState({tripFull: this.state.tripFull.concat([data])})
+            //위도 경도를 null일때를 제외하여 각각 배열에 저장한다
+            if(data.lat != undefined && data.lon != undefined){
+            this.setState({lats: this.state.lats.concat([data.lon]), lons: this.state.lons.concat([data.lat])})}
+            else{
+                this.setState({lats: this.state.lats.concat([0]), lons: this.state.lons.concat([0])})}
+            console.log("this is full", this.state.lats)
         })
     }
     render() {
@@ -125,11 +139,27 @@ export default class Schedule extends Component{
                                                 <CollapseBody>
                                                     <View>
                                                         <View style={{width:'100%', height:150, backgroundColor:'#d2d2d2'}}>
-                                                            <MapView style={{width:'100%', height:150,}}><Marker
-      coordinate={marker.latlng}
-      title={marker.title}
-      description={marker.description}
-    /></MapView>
+                                                            <MapView style={{width:'100%', height:150,}} 
+                                                                initialRegion={{longitude:126.9770162, latitude:37.5788408, latitudeDelta: 0.8, longitudeDelta: 0.8,}}>
+                                                                    {
+                                                                        this.state.tripFull ? this.state.tripFull.map((param, index) => {
+                                                                            if(param.lat != undefined && param.lon != undefined)
+                                                                            {
+                                                                                console.log(param.lat, param.lon);
+                                                                                console.log("lats", this.state.lats);
+                                                                                return (<Marker coordinate={{latitude: param.lon, longitude: param.lat}} title={param.name} description={param.addr}/>);
+                                                                            }
+                                                                        }) : null
+                                                                    }
+                                                                <MapViewDirections
+                                                                    origin={{latitude:this.state.originlat, longitude:this.state.originlon}}
+                                                                    destination={{latitude:this.state.destlat, longitude:this.state.destlon}}
+                                                                    apikey={GOOGLE_MAPS_APIKEY}
+                                                                    strokeWidth={3}
+                                                                    strokeColor="#f09"
+                                                                    mode="TRANSIT"
+                                                                    />
+                                                            </MapView>
                                                         </View>
                                                         <View>
                                                             {
@@ -138,7 +168,10 @@ export default class Schedule extends Component{
                                                                         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                                                                             <Text>{param.name}</Text>
                                                                             <View style={{flexDirection:'row', }}>
-                                                                                <TouchableOpacity style={{marginRight:5,}}><Text>길찾기</Text></TouchableOpacity>
+                                                                                <TouchableOpacity style={{marginRight:5,}}
+                                                                                onPress={()=>this.setState({originlat:this.state.lats[index], originlon:this.state.lons[index], destlat:this.state.lats[index+1], destlon:this.state.lons[index+1]})}>
+                                                                                    <Text>길찾기</Text>
+                                                                                </TouchableOpacity>
                                                                                 <TouchableOpacity><Text>삭제</Text></TouchableOpacity>
                                                                             </View>
                                                                         </View>
@@ -154,40 +187,6 @@ export default class Schedule extends Component{
                                 </View>
                             );
                         })
-                        /*
-                        this.state.tripDataData[this.state.tripDates] ? this.state.tripDataData[this.state.tripDates].map((param, index) => {
-                            return(
-                                <View style={styles.container}>
-                                    <View style={styles.dropwrap}>
-                                        <View style={styles.dropdown} key={index}>
-                                            <Collapse style={{width:'100%'}} key={index} isCollapsed={this.state.collapsed}>
-                                                <CollapseHeader style={{width:'100%'}}>
-                                                <View style={{width: '100%', flexDirection:'row', justifyContent:'space-between'}}>
-                                                        <View style={{flexDirection: 'row'}}>
-                                                            <Text>{param.id}</Text>
-                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen')}>
-                                                                <Image style={{height:16, width: 16,}} resizeMode='contain' source={require('../assets/images/plus_circle.png')}/>
-                                                            </TouchableOpacity>
-                                                        </View>
-                                                        <View>
-                                                            <Text>▼</Text>
-                                                        </View>
-                                                    </View>
-                                                </CollapseHeader>
-                                                <CollapseBody>
-                                                    <View>
-                                                        <View style={{width:'100%', height:150, backgroundColor:'#d2d2d2'}}>
-                                                            <MapView style={{width:'100%', height:150,}}></MapView>
-                                                        </View>
-                                                        <Text>{param.id}</Text></View>
-                                                </CollapseBody>
-                                            </Collapse>
-                                        </View>
-                                    </View>
-                                </View>
-                            );
-                        })
-                        : null*/
                     }
                 </ScrollView>
             </View>
