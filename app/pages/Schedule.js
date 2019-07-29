@@ -20,7 +20,7 @@ export default class Schedule extends Component{
             tripDataData: [],
             tripDates : [],
             tripInfo: [],
-            tripName: '',
+            tripFull: [],
             }
     }
 
@@ -55,9 +55,12 @@ export default class Schedule extends Component{
             
             this.setState({tripData : data});
             console.log('this is tripDAta', this.state.tripData);
+
             //tripData 안의 array를 따로 저장한다
             this.setState({tripDataData : JSON.parse(this.state.tripData.data)}); 
             console.log('this is datadata', this.state.tripDataData);
+
+            //날짜별 일정 표시를 위해 날짜를 잘라낸다
             var x;
             for(x in this.state.tripDataData){
                 this.setState({tripDates: this.state.tripDates.concat([x])})
@@ -65,9 +68,11 @@ export default class Schedule extends Component{
             }
             console.log('this is tripdates', this.state.tripDates.length);
 
+            //날짜별 일정의 내용을 가져온다
             this.state.tripDates.map((param, index)=>{
                 this.state.tripDataData[param] ? this.state.tripDataData[param].map((param, index) => {
                     this.getInfoFunction(param.type, param.id);
+                    this.getfullInfoFunction(param.type, param.id);
                 }):null
             })
         });
@@ -83,6 +88,15 @@ export default class Schedule extends Component{
         })
     }
 
+    getfullInfoFunction(type, id){
+        infodataFunc.GetFullInfoTypeID(type, id).then(function(respose){
+            return JSON.parse(respose);
+        })
+        .then((data)=>{
+            this.setState({tripFull: this.state.tripInfo.concat([data])})
+            console.log("this is full", this.state.tripFull)
+        })
+    }
     render() {
         return(
             <View style = {common.greycontainer}>
@@ -111,13 +125,23 @@ export default class Schedule extends Component{
                                                 <CollapseBody>
                                                     <View>
                                                         <View style={{width:'100%', height:150, backgroundColor:'#d2d2d2'}}>
-                                                            <MapView style={{width:'100%', height:150,}}></MapView>
+                                                            <MapView style={{width:'100%', height:150,}}><Marker
+      coordinate={marker.latlng}
+      title={marker.title}
+      description={marker.description}
+    /></MapView>
                                                         </View>
                                                         <View>
                                                             {
-                                                                this.state.tripInfo ? this.state.tripInfo.map((param, index) => {
+                                                                this.state.tripFull ? this.state.tripFull.map((param, index) => {
                                                                     return(
-                                                                        <Text>{param.name}</Text>
+                                                                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                                                                            <Text>{param.name}</Text>
+                                                                            <View style={{flexDirection:'row', }}>
+                                                                                <TouchableOpacity style={{marginRight:5,}}><Text>길찾기</Text></TouchableOpacity>
+                                                                                <TouchableOpacity><Text>삭제</Text></TouchableOpacity>
+                                                                            </View>
+                                                                        </View>
                                                                     );
                                                                 }) : null
                                                             }
