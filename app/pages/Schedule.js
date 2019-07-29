@@ -10,6 +10,8 @@ export default class Schedule extends Component{
     constructor(props){
         super(props);
         this.state = {
+            email: '',
+            id: '',
             collapsed : false,
             popupdata : false,
             value : "0"
@@ -30,22 +32,21 @@ export default class Schedule extends Component{
     }
 
     componentDidMount(){
-        //const email = this.props.navigation.dangerouslyGetParent().getParam('email', 'nothing sent');
         const id = this.props.screenProps.id;
         const email = this.props.screenProps.email;
-        console.log(email);
-        console.log("this is id in schedule" ,id);
-        this.setState({email: email}); //다음 페이지로 넘기기 위한 이메일 저장
-
+        this.setState({email: email, id: id}); //다음 페이지로 넘기기 위한 이메일 저장
+        const type = 'schedule'
         this.getScheduleFunction(email, id, type);
+        console.log("start");
     }
 
     getScheduleFunction(email, id, type){
         tripdataFunc.GetTripData(email, id, type).then(function(response){
+            console.log("this is start of the func");
             return response.json();
         })
         .then(function(data){
-            console.log(data)
+            console.log("this is data", data)
         });
     }
 
