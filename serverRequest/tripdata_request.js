@@ -10,7 +10,7 @@ email, tripID에 해당하는 여행의 type(schedule, expense, diary) 반환
 function GetTripData(email, tripID, type) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/' + type,
             method: "GET"
         }, function (error, response, body){
             if (error) {
@@ -37,7 +37,7 @@ email, tripID에 해당하는 여행의 일정/가계부/일기 만들기
 function PostTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/' + type,
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수
 function UpdateTripData(email, tripID, type, data) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/' + type,
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/' + type,
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
