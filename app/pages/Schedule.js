@@ -127,7 +127,7 @@ export default class Schedule extends Component{
                                                     <View style={{width: '100%', flexDirection:'row', justifyContent:'space-between'}}>
                                                         <View style={{flexDirection: 'row'}}>
                                                             <Text>{param}</Text>
-                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen')}>
+                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen', {email: this.state.email, id: this.state.id, date:param})}>
                                                                 <Image style={{height:16, width: 16,}} resizeMode='contain' source={require('../assets/images/plus_circle.png')}/>
                                                             </TouchableOpacity>
                                                         </View>

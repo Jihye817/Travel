@@ -3,6 +3,7 @@ import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Picker, Tex
 import common from '../styles/Style';
 import {CheckBox} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import * as infodataFunc from '../../serverRequest/info_request';
 
 export default class New_Schedule extends Component{
     constructor(props){
@@ -15,11 +16,30 @@ export default class New_Schedule extends Component{
         }
     }
 
+    componentDidMount(){
+        const id = this.props.navigation.getParam('id', 'nothing sent');
+        const email = this.props.navigation.getParam('email', 'nothing sent');
+        const date = this.props.navigation.getParam('date', 'nothing sent');
+        this.setState({email: email, id: id}); //다음 페이지로 넘기기 위한 이메일 저장
+
+        //searchFunction(value, area);
+    }
+
     handleChange =(itemID)=>{
         let data = this.state.data
         data[itemID].checked=!data[itemID].checked
         this.setState({data:data})
     }
+
+    searchFunction(type, area){
+        infodataFunc.GetInfoTypeArea(type, area).then(function(response){
+            return JSON.parse(response);
+        })
+        .then((data)=>{
+            console.log(data)
+        });
+    }
+
 
     render(){
         let {data, checked} = this.state;
