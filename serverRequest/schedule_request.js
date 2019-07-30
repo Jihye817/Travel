@@ -10,7 +10,7 @@ email, tripID에 해당하는 여행의 일정 반환
 export function GetSchedule(email, tripID) {
     return new Promise(function(resolve, reject) {
         request({
-            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/' + type,
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/schedule',
             method: "GET"
         }, function (error, response, body){
             if (error) {
