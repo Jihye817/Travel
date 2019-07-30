@@ -104,6 +104,23 @@ export function GetInfoTypeID(type, id) {
     });
 }
 
+export function GetDetailInfoTypeID(type, id) {
+    return new Promise(function(resolve, reject) {
+        request({
+            url: "http://106.10.53.87:8080/info/full/" + type + '/' + id,
+            method: "GET"
+        }, function (error, response, body){
+            if (error) {
+                console.log(error);
+                resolve(null);
+            }
+            else {
+                var detail = JSON.parse(body).detail;
+                resolve(JSON.parse(detail).detail);
+            }
+        });
+    });
+}
 //module.exports=[GetInfoTypeArea, GetFullInfoTypeID, GetInfoTypeID];
 
 

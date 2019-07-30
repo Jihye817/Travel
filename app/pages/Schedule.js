@@ -16,6 +16,9 @@ export default class Schedule extends Component{
         this.state = {
             email: '',
             id: '',
+            area1: '',
+            area2: '',
+            area3: '',
             collapsed : false,
             popupdata : false,
             value : "0",
@@ -33,23 +36,13 @@ export default class Schedule extends Component{
         }
     }
 
-    data = {
-        contents: [
-            {
-                date: '4/3',
-                body: 'this is component 1',
-            },
-            {
-                date: '4/4',
-                body: 'this is component 2',
-            },
-        ]
-    }
-
     componentDidMount(){
         const id = this.props.screenProps.id;
         const email = this.props.screenProps.email;
-        this.setState({email: email, id: id}); //다음 페이지로 넘기기 위한 이메일 저장
+        const area1 = this.props.screenProps.area1;
+        const area2 = this.props.screenProps.area2;
+        const area3 = this.props.screenProps.area3;
+        this.setState({email: email, id: id, area1:area1, area2:area2, area3:area3}); //다음 페이지로 넘기기 위한 이메일 저장
 
         const type = 'schedule'
         this.getScheduleFunction(email, id, type);
@@ -75,7 +68,6 @@ export default class Schedule extends Component{
                 this.setState({tripDates: this.state.tripDates.concat([x])})
                 console.log('check', this.state.tripDataData[x]);
             }
-            console.log('this is tripdates', this.state.tripDates.length);
 
             //날짜별 일정의 내용을 가져온다
             this.state.tripDates.map((param, index)=>{
@@ -127,7 +119,7 @@ export default class Schedule extends Component{
                                                     <View style={{width: '100%', flexDirection:'row', justifyContent:'space-between'}}>
                                                         <View style={{flexDirection: 'row'}}>
                                                             <Text>{param}</Text>
-                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen', {email: this.state.email, id: this.state.id, date:param})}>
+                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen', {email: this.state.email, id: this.state.id, date:param, area1:this.state.area1, area2:this.state.area2, area3:this.state.area3, tripDataData:this.state.tripDataData})}>
                                                                 <Image style={{height:16, width: 16,}} resizeMode='contain' source={require('../assets/images/plus_circle.png')}/>
                                                             </TouchableOpacity>
                                                         </View>

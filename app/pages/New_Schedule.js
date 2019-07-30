@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Picker, TextInput, FlatList} from 'react-native';
 import common from '../styles/Style';
-import {CheckBox} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import * as infodataFunc from '../../serverRequest/info_request';
+import * as tripdataFunc from '../../serverRequest/tripdata_request';
 
 export default class New_Schedule extends Component{
     constructor(props){
@@ -11,8 +11,17 @@ export default class New_Schedule extends Component{
         this.state = {
             popupdata: false,
             value : "0",
-            activeCheckbox: null,
-            data: [{ month: '4', day: '3', key: '속초', id:0, checked: false }, { month: '4', day: '4', key: '양평', id:1, checked: false }, { month: '4', day: '4', key: '전주', id:2, checked: false }],
+            id: '',
+            email: '',
+            date: '',
+            area1: '',
+            area2: '',
+            area3: '',
+            infoData: [],
+            targetData: [],
+            targetDetail: '',
+            putData: [],
+            tripDataData: [],
         }
     }
 
@@ -20,29 +29,80 @@ export default class New_Schedule extends Component{
         const id = this.props.navigation.getParam('id', 'nothing sent');
         const email = this.props.navigation.getParam('email', 'nothing sent');
         const date = this.props.navigation.getParam('date', 'nothing sent');
-        this.setState({email: email, id: id}); //다음 페이지로 넘기기 위한 이메일 저장
-
-        //searchFunction(value, area);
+        const area1 = this.props.navigation.getParam('area1', 'nothing sent');
+        const area2 = this.props.navigation.getParam('area2', 'nothing sent');
+        const area3 = this.props.navigation.getParam('area3', 'nothing sent');
+        const tripDataData = this.props.navigation.getParam('tripDataData', 'nothing sent');
+        this.setState({email: email, id: id, area1:area1, area2:area2, area3:area3, date:date, tripDataData:tripDataData});
     }
 
     handleChange =(itemID)=>{
-        let data = this.state.data
+        let data = this.state.infodata
         data[itemID].checked=!data[itemID].checked
         this.setState({data:data})
     }
 
-    searchFunction(type, area){
-        infodataFunc.GetInfoTypeArea(type, area).then(function(response){
-            return JSON.parse(response);
+    popFunction = (email, tripID, type, data) => {
+        this.setState({popupdata : false});
+        this.updateTripFunction(email, tripID, type, data);
+        this.props.navigation.navigate('ScheduleScreen');
+    }
+
+    searchFunction(type, area1, area2, area3){
+        infodataFunc.GetInfoTypeArea(type, area1, area2, area3).then(function(response){
+            return response;
         })
         .then((data)=>{
             console.log(data)
+            this.setState({infoData:(data[0].concat(data[1])).concat(data[2])});
+            console.log("the info datas : ", this.state.infoData);
         });
     }
 
+    popFunction_data = (type, id) =>{
+        this.setState({popupdata:true});
+        this.getInfoFunction(type, id);
+        this.getDetailFunction(type, id);
+    }
 
+    getInfoFunction(type, id){
+        infodataFunc.GetFullInfoTypeID(type, id).then(function(response){
+            return JSON.parse(response);
+        })
+        .then((data)=>{
+            this.setState({targetData: data});
+            console.log(data);
+        })
+    }
+
+    getDetailFunction(type, id){
+        infodataFunc.GetDetailInfoTypeID(type, id).then(function(response){
+            return response;
+        })
+        .then((data)=>{
+            this.setState({targetDetail: data});
+        })
+    }
+
+    /*updateTripFunction(email, tripID, type, data){
+        var update_data = {};
+        update_data=data;
+        console.log("this is date : ", this.state.date);
+        console.log("This is update data : ", update_data._id, update_data.type);
+        console.log("thisstatetripdatadata :;::: ", this.state.tripDataData[this.state.date]);
+        var updatestring = '{id: ' + update_data._id + ', ' + 'type: ' + update_data.type + '}';
+        console.log(updatestring);
+        this.setState({tripDataData: this.state.tripDataData[this.state.date].concat(updatestring)});
+        console.log("This is the tripDATADATA : ", this.state.tripDataData)
+        tripdataFunc.UpdateTripData(email, tripID, type, this.state.tripDataData).then(function(response){
+            return response.json();
+        })
+        .then((data)=>{
+            console.log(tripDataData);
+        })
+    }
+*/
     render(){
-        let {data, checked} = this.state;
         return(
             <View style={common.greycontainer}>
                 <View style={styles.one}>
@@ -57,15 +117,15 @@ export default class New_Schedule extends Component{
                                     onValueChange={(itemValue, itemIndex) => this.setState({ value: itemValue })}
                                     style={styles.pickerstyle}>
                                     <Picker.Item label="분류" value="0" />
-                                    <Picker.Item label="관광" value="1" />
-                                    <Picker.Item label="음식" value="2" />
-                                    <Picker.Item label="숙소" value="3" />
+                                    <Picker.Item label="관광" value="tour" />
+                                    <Picker.Item label="음식" value="eat" />
+                                    <Picker.Item label="숙소" value="stay" />
                                 </Picker>
                             </View>
 
                             <TextInput style={styles.txtinput} placeholder='검색어를 입력하세요' placeholderTextColor='#D9D9D9' />
 
-                            <TouchableOpacity style={styles.searchbtn}>
+                            <TouchableOpacity style={styles.searchbtn} onPress={()=>this.searchFunction(this.state.value, this.state.area1, this.state.area2, this.state.area3)}>
                                 <Text style={styles.btntxt}>검색</Text>
                             </TouchableOpacity>
                         </View>
@@ -73,31 +133,23 @@ export default class New_Schedule extends Component{
                         <ScrollView style={styles.scrollview}>
                             <FlatList
                                 style={{width: '100%', height:'50%'}}
-                                data={data}
+                                data={this.state.infoData}
                                 extraData={this.state}
-                                renderItem={({ item, index }) =>
-                                    <TouchableOpacity style={styles.listitemwrap} onPress={()=>this.setState({popupdata:true})}>
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity style={styles.listitemwrap} onPress={()=>this.popFunction_data(this.state.value, item._id)}>
                                         <View style={styles.checkwrap}>
-                                            <CheckBox
-                                                checked={this.state.data[item.id].checked}
-                                                onPress={()=>this.handleChange(item.id)}
-                                                checkedColor='#FF7C5E'
-                                            ></CheckBox>
+                                            <Text>-</Text>
                                         </View>
                                         <View style={styles.textwrap}>
-                                            <View style={{}}><Text style={{fontSize: 18,}}>{item.month}</Text></View>
-                                            <View><Text>{item.key}</Text></View>
+                                            <View style={{}}><Text style={{fontSize: 18,}}>{item.name}</Text></View>
+                                            <View><Text>{item.addr}</Text></View>
                                         </View>
                                     </TouchableOpacity>
                             }
                             />
                         </ScrollView>
 
-                        <View style = {styles.btnwrap}>
-                            <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('ScheduleScreen')}>
-                                <Text style={styles.btntxt}>저장</Text>
-                            </TouchableOpacity>
-                            
+                        <View style = {styles.btnwrap}>                            
                             <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('ScheduleScreen')}>
                                 <Text style={styles.btntxt}>취소</Text>
                             </TouchableOpacity>
@@ -118,23 +170,27 @@ export default class New_Schedule extends Component{
                             </View>
 
                             <View style={{justifyContent:'center', alignItems:'center', height:'35%'}}>
-                                <Image resizeMode='contain' style={{width:'80%'}} source={require('../assets/images/photoexample.jpg')}></Image>
+                                <Image resizeMode='contain' style={{height:150, width:250}} source={{uri: this.state.targetData.imageurl}}></Image>
                             </View>
 
-                            <View style={{height: '35%',}}>
-                                <View style={{width:'80%', alignItems:'center' }}>
+                            <View style={{height: '35%', alignItems:'center', justifyContent:'center'}}>
+                                <View style={{width:'80%', alignItems:'center', justifyContent:'center'}}>
                                     <View style={{width:'80%'}}>
-                                        <Text style={{fontSize: 18,}}>장소이름</Text>
+                                        <Text style={{fontSize: 18,}}>{this.state.targetData.name}</Text>
                                     </View>
-                                    <View style={{width:'80%', marginTop: 10,}}>
-                                        <Text>장소설명</Text>
+                                    <View style={{width:'100%', marginTop: 10, justifyContent:'center', alignItems:'center'}}>
+                                        <Text ellipsizeMode='tail' numberOfLines={6}>{this.state.targetDetail}</Text>
                                     </View>
                                 </View>
                             </View>
 
 
                             <View style={styles.bottombtnwrap}>
-                                <TouchableOpacity style={{ width: '80%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.setState({popupdata:false})}>
+                                
+                                <TouchableOpacity style={{ width: '35%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.popFunction(this.state.email, this.state.id, 'schedule', this.state.targetData)}>
+                                    <Text style={{color: '#FFF', fontSize:16}}>저장</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ width: '35%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.setState({popupdata:false})}>
                                     <Text style={{color: '#FFF', fontSize:16}}>닫기</Text>
                                 </TouchableOpacity>
                             </View>
@@ -234,6 +290,7 @@ const styles = StyleSheet.create({
     checkwrap: {
         width: '15%',
         justifyContent:'center',
+        alignItems:'center'
     },
     textwrap: {
         width:'85%',
@@ -254,7 +311,8 @@ const styles = StyleSheet.create({
     },
     bottombtnwrap: {
         marginTop: 15,
-        justifyContent: 'center',
+        flexDirection:'row', 
+        justifyContent: 'space-around',
         alignItems: 'center',
     },
 })

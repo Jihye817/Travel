@@ -71,7 +71,7 @@ export default class Triplist_main extends Component{
 
     _renderItem =({item}) => {//Flatlist list 내용
         return(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen', {email: this.state.email, id: item._id})}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('TriptabScreen', {email: this.state.email, id: item._id, area1:item.area1, area2:item.area2, area3:item.area3})}>
                 <View style = {{alignItems: 'center'}}>
                     <View style = {styles.listwrap}>
                         <View style={styles.topwrap}>
