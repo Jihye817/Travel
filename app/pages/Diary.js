@@ -3,26 +3,49 @@ import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Image} f
 import common from '../styles/Style';
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
+import * as diarydataFunc from '../../serverRequest/diary_request';
+import * as tripdataFunc from '../../serverRequest/trip_request';
 
 export default class Diary extends Component{
     constructor(props){
         super(props);
-        this.state={popupdata:false, ishidden:0}
+        this.state={
+            popupdata:false,
+            ishidden:0,
+            email: '',
+            id: '',
+            diaryList: [],
+        }
+    }
+
+    componentDidMount(){
+        const id = this.props.screenProps.id;
+        const email = this.props.screenProps.email;
+        this.setState({email: email, id: id});
+        this.getDiaryFunction(email, id);
+    }
+
+    getDiaryFunction(email, tripID){
+        diarydataFunc.GetDiaries(email, tripID).then(function(response){
+            return JSON.parse(response);
+        })
+        .then((data)=>{
+            this.setState({diaryList:data});
+            console.log("this is diarylist:", this.state.diaryList);
+        })
     }
 
     _renderItem =({item}) => {//Flatlist list 내용
         return(
             <View style = {{alignItems: 'center'}}>
                     <View style = {{marginVertical: 15, backgroundColor: '#FFF', width: '80%', padding: 20, shadowColor: '#000', shadowRadius: 3, shadowOffset: {width:0, height: 2}, shadowOpacity : 0.7, elevation: 5}}>
-                        <View style={{flexDirection: 'row', alignItems:'center'}}>
+                        <View style={{flexDirection: 'row', alignItems:'center', marginBottom:5}}>
                             <View style={{flexDirection:'row'}}>
-                                <Text style={{fontSize: 32, fontWeight: '400'}}>{item.month}</Text>
-                                <Text style={{fontSize: 32, fontWeight: '400', color:'#FF7C5E'}}>/</Text>
-                                <Text style={{fontSize: 32, fontWeight: '400'}}>{item.day}</Text>
+                                <Text style={{fontSize: 32, fontWeight: '400'}}>{item.name}</Text>
                             </View>
-                            <Text style={{fontSize: 24}}> {item.key}</Text>
+                            <Text style={{fontSize: 24}}> </Text>
                         </View>
-                        <View><Text>소제목은 여기에</Text></View>
+                        <View><Text style={{fontSize: 20}}>{tripdataFunc.ConvertDate(item.date)}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
                             <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=>this.props.navigation.navigate('DchangeScreen')}>
                                 <Text style={{color:'#FFF'}}>수정</Text>
@@ -82,7 +105,7 @@ export default class Diary extends Component{
                 <View style={{maxHeight:'85%',}}>
                     <ScrollView>
                         <FlatList
-                            data={[{ month: '4', day: '3', key: '속초' }, { month: '4', day: '4', key: '양평' }]}
+                            data={this.state.diaryList}
                             renderItem={this._renderItem}
                         />
                     </ScrollView>

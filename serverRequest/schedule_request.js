@@ -57,7 +57,8 @@ export function PutSchedule(email, tripID, date, type, id) {
             json: true,
             body: {
                 'date': date,
-                'id': id
+                'id': id,
+                'type': type
             }
         }, function (error, response, body){
             if (error) {

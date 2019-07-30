@@ -3,7 +3,7 @@ import {View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Picker, Tex
 import common from '../styles/Style';
 import Modal from 'react-native-modal';
 import * as infodataFunc from '../../serverRequest/info_request';
-import * as tripdataFunc from '../../serverRequest/tripdata_request';
+import * as scheduledataFunc from '../../serverRequest/schedule_request';
 
 export default class New_Schedule extends Component{
     constructor(props){
@@ -11,7 +11,7 @@ export default class New_Schedule extends Component{
         this.state = {
             popupdata: false,
             value : "0",
-            id: '',
+            tripId: '',
             email: '',
             date: '',
             area1: '',
@@ -21,19 +21,19 @@ export default class New_Schedule extends Component{
             targetData: [],
             targetDetail: '',
             putData: [],
-            tripDataData: [],
+            tripData: [],
         }
     }
 
     componentDidMount(){
-        const id = this.props.navigation.getParam('id', 'nothing sent');
+        const tripId = this.props.navigation.getParam('id', 'nothing sent');
         const email = this.props.navigation.getParam('email', 'nothing sent');
         const date = this.props.navigation.getParam('date', 'nothing sent');
         const area1 = this.props.navigation.getParam('area1', 'nothing sent');
         const area2 = this.props.navigation.getParam('area2', 'nothing sent');
         const area3 = this.props.navigation.getParam('area3', 'nothing sent');
-        const tripDataData = this.props.navigation.getParam('tripDataData', 'nothing sent');
-        this.setState({email: email, id: id, area1:area1, area2:area2, area3:area3, date:date, tripDataData:tripDataData});
+        const tripData = this.props.navigation.getParam('tripData', 'nothing sent');
+        this.setState({email: email, tripId: tripId, area1:area1, area2:area2, area3:area3, date:date, tripData:tripData});
     }
 
     handleChange =(itemID)=>{
@@ -42,9 +42,10 @@ export default class New_Schedule extends Component{
         this.setState({data:data})
     }
 
-    popFunction = (email, tripID, type, data) => {
+    popFunction = (email, tripID, date, type, id) => {
         this.setState({popupdata : false});
-        this.updateTripFunction(email, tripID, type, data);
+        console.log("THIS is TYPE", id);
+        this.updateTripFunction(email, tripID, date, type, id);
         this.props.navigation.navigate('ScheduleScreen');
     }
 
@@ -84,24 +85,15 @@ export default class New_Schedule extends Component{
         })
     }
 
-    /*updateTripFunction(email, tripID, type, data){
-        var update_data = {};
-        update_data=data;
-        console.log("this is date : ", this.state.date);
-        console.log("This is update data : ", update_data._id, update_data.type);
-        console.log("thisstatetripdatadata :;::: ", this.state.tripDataData[this.state.date]);
-        var updatestring = '{id: ' + update_data._id + ', ' + 'type: ' + update_data.type + '}';
-        console.log(updatestring);
-        this.setState({tripDataData: this.state.tripDataData[this.state.date].concat(updatestring)});
-        console.log("This is the tripDATADATA : ", this.state.tripDataData)
-        tripdataFunc.UpdateTripData(email, tripID, type, this.state.tripDataData).then(function(response){
+    updateTripFunction(email, tripID, date, type, id){
+        scheduledataFunc.PutSchedule(email, tripID, date, type, id).then(function(response){
             return response.json();
         })
         .then((data)=>{
-            console.log(tripDataData);
+            console.log(data);
         })
     }
-*/
+
     render(){
         return(
             <View style={common.greycontainer}>
@@ -187,7 +179,7 @@ export default class New_Schedule extends Component{
 
                             <View style={styles.bottombtnwrap}>
                                 
-                                <TouchableOpacity style={{ width: '35%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.popFunction(this.state.email, this.state.id, 'schedule', this.state.targetData)}>
+                                <TouchableOpacity style={{ width: '35%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.popFunction(this.state.email, this.state.tripId, this.state.date, this.state.value, this.state.targetData._id)}>
                                     <Text style={{color: '#FFF', fontSize:16}}>저장</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ width: '35%', padding: 10, backgroundColor: '#FF7C5E', alignItems:'center' }} onPress={()=>this.setState({popupdata:false})}>

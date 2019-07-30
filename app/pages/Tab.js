@@ -10,7 +10,7 @@ const Tab = ({focusAnim, title, onPress}) => {
                     paddingHorizontal: 20,
                     backgroundColor: focusAnim.interpolate({
                         inputRange: [0, 1],
-                        outputRange: ['transparent', '#EE5A3C']
+                        outputRange: ['transparent', '#DD493B']
                     })
                 }}
             >

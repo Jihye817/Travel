@@ -6,6 +6,7 @@ import Modal from 'react-native-modal';
 import MapView, {Marker} from 'react-native-maps';
 import * as tripdataFunc from '../../serverRequest/tripdata_request';
 import * as infodataFunc from '../../serverRequest/info_request';
+import * as scheduledataFunc from '../../serverRequest/schedule_request';
 import MapViewDirections from 'react-native-maps-directions';
 
 const GOOGLE_MAPS_APIKEY ='AIzaSyDvIHlMNDs3IG6UO_6XbRy4PwkOPAXfaUg';
@@ -44,34 +45,36 @@ export default class Schedule extends Component{
         const area3 = this.props.screenProps.area3;
         this.setState({email: email, id: id, area1:area1, area2:area2, area3:area3}); //다음 페이지로 넘기기 위한 이메일 저장
 
-        const type = 'schedule'
-        this.getScheduleFunction(email, id, type);
+        //const type = 'schedule'
+        this.getScheduleFunction(email, id);
     }
 
-    getScheduleFunction(email, id, type){
+    getScheduleFunction(email, id){
         //GetTripData에서 일정의 id 및 type을 읽어온다
-        tripdataFunc.GetTripData(email, id, type).then(function(response){
-            return JSON.parse(response);
+        scheduledataFunc.GetSchedule(email, id).then(function(response){
+            console.log("this is scheduleget");
+            return response;
         })
         .then((data)=>{
             
             this.setState({tripData : data});
-            console.log('this is tripDAta', this.state.tripData);
+            console.log('this is tripDATA', this.state.tripData);
 
             //tripData 안의 array를 따로 저장한다
-            this.setState({tripDataData : JSON.parse(this.state.tripData.data)}); 
-            console.log('this is datadata', this.state.tripDataData);
+            //this.setState({tripDataData : JSON.parse(this.state.tripData.data)}); 
+            //console.log('this is tripDATADATA', this.state.tripDataData);
 
             //날짜별 일정 표시를 위해 날짜를 잘라낸다
             var x;
-            for(x in this.state.tripDataData){
+            for(x in this.state.tripData){
                 this.setState({tripDates: this.state.tripDates.concat([x])})
-                console.log('check', this.state.tripDataData[x]);
+                console.log('check', this.state.tripData[x]);
             }
-
             //날짜별 일정의 내용을 가져온다
-            this.state.tripDates.map((param, index)=>{
-                this.state.tripDataData[param] ? this.state.tripDataData[param].map((param, index) => {
+            this.state.tripDates.map((param, indexs)=>{
+                console.log("param" , param);
+                this.state.tripData[param] ? this.state.tripData[param].map((param, index) => {
+                    console.log("Schedule getting", param, param.type, param.id);
                     this.getInfoFunction(param.type, param.id);
                     this.getfullInfoFunction(param.type, param.id);
                 }):null
@@ -85,7 +88,7 @@ export default class Schedule extends Component{
         })
         .then((data)=>{
             this.setState({tripInfo: this.state.tripInfo.concat([data])})
-            console.log(this.state.tripInfo)
+            console.log("this is getinfo func", this.state.tripInfo)
         })
     }
 
@@ -103,6 +106,7 @@ export default class Schedule extends Component{
             console.log("this is full", this.state.lats)
         })
     }
+
     render() {
         return(
             <View style = {common.greycontainer}>
@@ -119,7 +123,7 @@ export default class Schedule extends Component{
                                                     <View style={{width: '100%', flexDirection:'row', justifyContent:'space-between'}}>
                                                         <View style={{flexDirection: 'row'}}>
                                                             <Text>{param}</Text>
-                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen', {email: this.state.email, id: this.state.id, date:param, area1:this.state.area1, area2:this.state.area2, area3:this.state.area3, tripDataData:this.state.tripDataData})}>
+                                                            <TouchableOpacity style={{justifyContent:'center', marginLeft: 5,}} onPress={() => this.props.navigation.navigate('New_ScheduleScreen', {email: this.state.email, id: this.state.id, date:param, area1:this.state.area1, area2:this.state.area2, area3:this.state.area3, tripData:this.state.tripData})}>
                                                                 <Image style={{height:16, width: 16,}} resizeMode='contain' source={require('../assets/images/plus_circle.png')}/>
                                                             </TouchableOpacity>
                                                         </View>

@@ -24,7 +24,7 @@ email, tripID에 해당하는 여행의 간단한 일기 목록(일기 번호, �
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
 ******************************/
-function GetDiaries(email, tripID) {
+export function GetDiaries(email, tripID) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary',
@@ -50,7 +50,7 @@ email, tripID에 해당하는 여행의 일기 (일기 번호, 제목, 날짜, �
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
 ******************************/
-function GetSingleDiary(email, tripID, diaryID) {
+export function GetSingleDiary(email, tripID, diaryID) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary/' + diaryID,
@@ -87,7 +87,7 @@ email, tripID에 해당하는 여행의 일기를 DB에 저장
 일기일 때 사진도 올림: https://heartbeat.fritz.ai/how-to-upload-images-in-a-react-native-app-4cca03ded855 여기서 업로드 하는 법 참고함
 photo에는 const { photo } = this.state;로 받아온 걸 넣으면 될 듯..? (리액트 네이티브 알못의 슬픔)
 ******************************/
-function PostDiary(email, tripID, name, date, data, photo = null) {
+export function PostDiary(email, tripID, name, date, data, photo = null) {
     return new Promise(function(resolve, reject) {
         if (photo != null) {
             request({
@@ -170,7 +170,7 @@ email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수
 photo에는 const { photo } = this.state;로 받아온 걸 넣으면 될 듯..? (리액트 네이티브 알못의 슬픔)
 사진이 안 바뀌었으면 추가 안 해도 됨! data는 수정 안 되었어도 추가해야 함.
 ******************************/
-function UpdateDiary(email, tripID, diaryID, name, date, data, photo = null) {
+export function UpdateDiary(email, tripID, diaryID, name, date, data, photo = null) {
     return new Promise(function(resolve, reject) {
         if (photo != null) {
             request({
@@ -238,7 +238,7 @@ function UpdateDiary(email, tripID, diaryID, name, date, data, photo = null) {
     });
 }
 
-module.exports = [GetDiaries, GetSingleDiary, PostDiary, UpdateDiary];
+//module.exports = [GetDiaries, GetSingleDiary, PostDiary, UpdateDiary];
 
 /*
 //Example code
