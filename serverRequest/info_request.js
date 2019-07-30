@@ -16,7 +16,7 @@ export function GetInfoTypeArea(type, area1, area2=null, area3=null) {
                     resolve(null);
                 }
                 else {
-                    resolve(body);
+                    resolve(JSON.parse(body));
                 }
             })
         });
@@ -31,7 +31,7 @@ export function GetInfoTypeArea(type, area1, area2=null, area3=null) {
                     resolve(null);
                 }
                 else {
-                    resolve(body);
+                    resolve(JSON.parse(body));
                 }
             });
             }
@@ -48,7 +48,7 @@ export function GetInfoTypeArea(type, area1, area2=null, area3=null) {
                     resolve(null);
                 }
                 else {
-                    resolve(body);
+                    resolve(JSON.parse(body));
                 }
             });
             }
