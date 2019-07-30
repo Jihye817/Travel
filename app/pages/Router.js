@@ -15,8 +15,6 @@ const MyTabNavigator = createMaterialTopTabNavigator({
         navigationOptions : {title: '일정', tabBarLabel: '일정'}},
     DiaryScreen : {screen : Diary,
         navigationOptions : {title: '일기'}},
-    MoneyScreen : {screen : Money,
-        navigationOptions : {title: '가계부'}},
 },
 {
     tabBarComponent : Tabbar,
