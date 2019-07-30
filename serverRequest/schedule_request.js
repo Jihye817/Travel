@@ -3,9 +3,11 @@ const request = require('request');
 /******************************
 GetSchedule 함수 설명
 email, tripID에 해당하는 여행의 일정 반환
+반환하는 값 형태: [날짜1: [{일정1}, {일정2}], 날짜2: [{일정1}, {일정2}]] ===> object
 실패했을 때:
     404: 해당 사용자의 여행이 존재하지 않음
     503: 서버상 오류
+    null: http 요청을 보낼 때 오류
 ******************************/
 export function GetSchedule(email, tripID) {
     return new Promise(function(resolve, reject) {
@@ -21,7 +23,7 @@ export function GetSchedule(email, tripID) {
                 console.log(response.statusCode, body);
                 if (response.statusCode != 200) resolve(response.statusCode);
                 else {
-                    resolve(body);
+                    resolve(JSON.parse(JSON.parse(body).data));
                 }
             }
         });
@@ -71,9 +73,10 @@ export function PutSchedule(email, tripID, date, type, id) {
 };
 
 
+
+//Example code
 /*
-Example code
-GetSchedule("unme0101@naver.com", 19).then(function(data){
+GetSchedule("unme0101@naver.com", 20).then(function(data){
     console.log(data);
 });
 
