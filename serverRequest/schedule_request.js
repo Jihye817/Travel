@@ -73,6 +73,36 @@ export function PutSchedule(email, tripID, date, type, id) {
     });
 };
 
+/******************************
+DeleteSchedule 함수 설명
+email, tripID에 해당하는 여행의 일정에서 date의 index번째 일정을 지운다.
+수정된 일정을 반환한다.
+성공했을 떄: 202
+실패했을 때:
+    400: 날짜나 index가 범위 밖
+    404: 해당 사용자의 여행이 존재하지 않음
+    503: 서버상 오류
+******************************/
+export function DeleteSchedule(email, tripID, date, index) {
+    return new Promise(function(resolve, reject) {
+        request({
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/data/schedule/' + date + '/' + index,
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }, function (error, response, body){
+            if (error) {
+                console.log(error);
+                resolve(null);
+            }
+            else {
+                resolve(response.statusCode);
+            }
+        });
+    });
+}
+
 
 
 //Example code
