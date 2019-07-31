@@ -1,21 +1,5 @@
 const request = require('request');
 
-const createFormData = (photo, body) => {
-  const data = new FormData();
-
-  data.append("photo", {
-    name: photo.fileName,
-    type: photo.type,
-    uri: photo.uri.replace("file://", "")
-  });
-
-  Object.keys(body).forEach(key => {
-    data.append(key, body[key]);
-  });
-
-  return data;
-};
-
 /******************************
 GetDiaries 함수 설명
 email, tripID에 해당하는 여행의 간단한 일기 목록(일기 번호, 제목, 날짜) 반환
@@ -88,16 +72,18 @@ photo에는 const { photo } = this.state;로 받아온 걸 넣으면 될 듯..? 
 ******************************/
 export function PostDiary(email, tripID, name, date, data, photo = null) {
     return new Promise(function(resolve, reject) {
-        console.log('diary request start');
         if (photo != null) {
-            console.log('photo exist');
             request({
                 url: "http://106.10.53.87:8080/image/upload",
                 method: "POST",
-                body: createFormData(photo, { user: email })
+                json: true,
+                body: {
+                    "user": email,
+                    "image": photo
+                }
             }, function (error2, response2, body2){
                 if (error2) {
-                    console.log("error2",error2);
+                    console.log(error2);
                     resolve(null);
                 }
                 else {
@@ -118,7 +104,7 @@ export function PostDiary(email, tripID, name, date, data, photo = null) {
                         }
                     }, function (error, response, body){
                         if (error) {
-                            console.log("error1",error);
+                            console.log(error);
                             resolve(null);
                         }
                         else {
@@ -130,7 +116,6 @@ export function PostDiary(email, tripID, name, date, data, photo = null) {
             });
         }
         else {
-            console.log('photo do not exist');
             request({
                 url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary',
                 method: "POST",
@@ -168,8 +153,6 @@ email, tripID에 해당하는 여행의 일정/가계부/일기를 새롭게 수
 실패했을 때:
     503: 서버상 오류
     400: 사용자가 존재하지 않음
-일기일 때 사진도 올림: https://heartbeat.fritz.ai/how-to-upload-images-in-a-react-native-app-4cca03ded855 여기서 업로드 하는 법 참고함
-photo에는 const { photo } = this.state;로 받아온 걸 넣으면 될 듯..? (리액트 네이티브 알못의 슬픔)
 사진이 안 바뀌었으면 추가 안 해도 됨! data는 수정 안 되었어도 추가해야 함.
 ******************************/
 export function UpdateDiary(email, tripID, diaryID, name, date, data, photo = null) {
@@ -178,7 +161,10 @@ export function UpdateDiary(email, tripID, diaryID, name, date, data, photo = nu
             request({
                 url: "http://106.10.53.87:8080/image/upload",
                 method: "POST",
-                body: createFormData(photo, { user: email })
+                body: {
+                    "user": email,
+                    "image": photo
+                }
             }, function (error2, response2, body2){
                 if (error2) {
                     console.log(error2);
@@ -240,15 +226,13 @@ export function UpdateDiary(email, tripID, diaryID, name, date, data, photo = nu
     });
 }
 
-//module.exports = [GetDiaries, GetSingleDiary, PostDiary, UpdateDiary];
-
 /*
 //Example code
 var email = 'unme0101@naver.com';
-var tripID = 4;
-var diaryID = 7;
+var tripID = 20;
+var diaryID = 9;
 
-var name = "edit3";
+var name = "edit";
 var date = "2019-07-30";
 var data = {
     "content": "hello diary edited"
@@ -259,7 +243,7 @@ GetDiaries(email, tripID).then(function(data){
     console.log(data);
 });
 
-GetSingleDiary(email, tripID, 5).then(function(data){
+GetSingleDiary(email, tripID, diaryID).then(function(data){
     console.log(data);
 });
 
@@ -267,7 +251,7 @@ PostDiary(email, tripID, name, date, data).then(function(data) {
     console.log(data);
 });
 
-UpdateDiary(email, tripID, 7, name, date, data).then(function(data) {
+UpdateDiary(email, tripID, diaryID, name, date, data).then(function(data) {
     console.log(data);
 });
 */
