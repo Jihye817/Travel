@@ -1,14 +1,41 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image, Picker, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image, Picker, TextInput, Platform} from 'react-native';
 import common from '../styles/Style';
 import { ScrollView } from 'react-native-gesture-handler';
 import PhotoUpload from 'react-native-photo-upload';
+import * as diarydataFunc from '../../serverRequest/diary_request';
 
 export default class Dwrite extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {value : "0"}
+        this.state = {
+            value : "0",
+            date: "0000-00-00",
+            email: '',
+            id: '',
+            name: '',
+            data: '',
+            photo: null,
+        }
+    }
+
+    componentDidMount(){
+        const email = this.props.navigation.getParam('email', 'nothing sent');
+        const id = this.props.navigation.getParam('id', 'nothing sent');
+
+        this.setState({email:email, id:id})
+    }
+
+    saveBtnFunction(email, tripID, name, date, data, photo){
+        this.postdiaryFunction(email, tripID, name, date, data, photo);
+        this.props.navigation.navigate('DiaryScreen');
+    }
+
+    postdiaryFunction(email, tripID, name, date, data, photo){
+        diarydataFunc.PostDiary(email, tripID, name, date, data, photo).then(function(response){
+            return response.json();
+        })
     }
     
     render() {
@@ -16,15 +43,25 @@ export default class Dwrite extends Component{
             <View style={styles.templatewrap}>
                 <PhotoUpload
                     onPhotoSelect={avatar => {
+                        this.setState({photo:avatar});
+                        console.log("TTTTTTTTTT", this.state.photo)
                         if (avatar) {
                             console.log('image base 64 string', avatar)
                         }
                     }}
+
+                    imagePickerProps={showImagePicker(options, (response) => {this.setState({photo:response})})}
                 >
-                    <Image resizeMode='cover' style={{width:320, height:160,marginBottom:10}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
+                    <Image resizeMode='cover' style={{width:320, height:120,marginBottom:10}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
                 </PhotoUpload>
                 
-                <TextInput style={styles.txtinput} placeholder='Enter title' placeholderTextColor='#D9D9D9' />
+                <TextInput
+                    style={styles.txtinput}
+                    placeholder='Enter title'
+                    placeholderTextColor='#D9D9D9'
+                    onChangeText={(text) => this.setState({name : text})}
+                    
+                />
                 <ScrollView style={styles.multiinput}>
                     <TextInput
                         multiline={true}
@@ -32,13 +69,19 @@ export default class Dwrite extends Component{
                         style={{ backgroundColor: '#FFF' }}
                         placeholder='Enter memo'
                         placeholderTextColor='#D9D9D9'
+                        onChangeText={(text) => this.setState({data : text})}
                     />
                 </ScrollView>
             </View>
 
         const TempTwo =
             <View style={styles.templatewrap}>
-                <TextInput style={styles.txtinput} placeholder='Enter title' placeholderTextColor='#D9D9D9' />
+                <TextInput
+                    style={styles.txtinput}
+                    placeholder='Enter title'
+                    placeholderTextColor='#D9D9D9'
+                    onChangeText={(text) => this.setState({name : text})}
+                />
                 <ScrollView style={styles.multiinput}>
                     <TextInput
                         multiline={true}
@@ -46,6 +89,7 @@ export default class Dwrite extends Component{
                         style={{ backgroundColor: '#FFF' }}
                         placeholder='Enter memo'
                         placeholderTextColor='#D9D9D9'
+                        onChangeText={(text) => this.setState({data : text})}
                     />
                 </ScrollView>
             </View>
@@ -67,8 +111,19 @@ export default class Dwrite extends Component{
                 <View style={styles.two}>
                     <View style={styles.pickerwrap}>
                         <Picker
+                            selectedValue={this.state.date}
+                            onValueChange={(itemValue, itemIndex) => this.setState({date: itemValue})}
+                            style={styles.pickerstyle}>
+                            <Picker.Item label="날짜 선택" value="0000-00-00" />
+                            <Picker.Item label="2019-08-05" value="2019-08-05" />
+                            <Picker.Item label="2019-08-06" value="2019-08-06" />
+                            <Picker.Item label="2019-08-07" value="2019-08-07" />
+                        </Picker>
+                    </View>
+                    <View style={styles.pickerwrap}>
+                        <Picker
                             selectedValue={this.state.value}
-                            onValueChange={(itemValue, itemIndex) => this.setState({value: itemValue})}
+                            onValueChange={(itemValue2, itemIndex) => this.setState({value: itemValue2})}
                             style={styles.pickerstyle}>
                             <Picker.Item label="template 선택" value="0" />
                             <Picker.Item label="Template 1" value="1" />
@@ -77,7 +132,7 @@ export default class Dwrite extends Component{
                     </View>
                     {Templatechange()}
                     <View style = {styles.btnwrap}>
-                        <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.navigate('DiaryScreen')}>
+                        <TouchableOpacity style = {styles.btn} onPress={()=>this.saveBtnFunction(this.state.email, this.state.id, this.state.name, this.state.date, this.state.data, this.state.photo)}>
                             <Text style = {styles.btntxt}>저장</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.navigate('DiaryScreen')}>
@@ -122,7 +177,7 @@ const styles = StyleSheet.create({
         borderColor: '#FF7C5E'
     },
     templatewrap: {
-        height: '74%',
+        height: '67%',
         width: '80%',
         marginTop: 10,
     },

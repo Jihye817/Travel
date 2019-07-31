@@ -6,8 +6,7 @@ const createFormData = (photo, body) => {
   data.append("photo", {
     name: photo.fileName,
     type: photo.type,
-    uri:
-      Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+    uri: photo.uri.replace("file://", "")
   });
 
   Object.keys(body).forEach(key => {
@@ -89,14 +88,16 @@ photo에는 const { photo } = this.state;로 받아온 걸 넣으면 될 듯..? 
 ******************************/
 export function PostDiary(email, tripID, name, date, data, photo = null) {
     return new Promise(function(resolve, reject) {
+        console.log('diary request start');
         if (photo != null) {
+            console.log('photo exist');
             request({
                 url: "http://106.10.53.87:8080/image/upload",
                 method: "POST",
                 body: createFormData(photo, { user: email })
             }, function (error2, response2, body2){
                 if (error2) {
-                    console.log(error2);
+                    console.log("error2",error2);
                     resolve(null);
                 }
                 else {
@@ -117,7 +118,7 @@ export function PostDiary(email, tripID, name, date, data, photo = null) {
                         }
                     }, function (error, response, body){
                         if (error) {
-                            console.log(error);
+                            console.log("error1",error);
                             resolve(null);
                         }
                         else {
@@ -129,6 +130,7 @@ export function PostDiary(email, tripID, name, date, data, photo = null) {
             });
         }
         else {
+            console.log('photo do not exist');
             request({
                 url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary',
                 method: "POST",

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Image} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Image, Platform} from 'react-native';
 import common from '../styles/Style';
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
@@ -59,7 +59,7 @@ export default class Diary extends Component{
 
     popFunction = () => {
         this.setState({popupdata : false});
-        this.props.navigation.navigate('DwriteScreen');
+        this.props.navigation.navigate('DwriteScreen', {email:this.state.email, id: this.state.id});
     }
 
     render() {
