@@ -1,6 +1,6 @@
 const request = require('request');
 
-export function ValidateEmail(email) {
+ function ValidateEmail(email) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
 }
@@ -130,7 +130,7 @@ email, tripID를 이용해 여행 정보 수정
     404: 변한 내용이 없거나 이메일/tripID가 틀림
     503: 서버상 오류
 ******************************/
-function EditTrip(email, tripID, newName, newStart, newEnd, newArea1, newArea2, newArea3){
+export function EditTrip(email, tripID, newName, newStart, newEnd, newArea1, newArea2, newArea3){
     return new Promise(function(resolve, reject) {
         if (!ValidateEmail(email)) resolve('invalid email');
         else {
@@ -163,19 +163,47 @@ function EditTrip(email, tripID, newName, newStart, newEnd, newArea1, newArea2, 
     });
 }
 
-//module.exports=[ConvertDate, GetTrips, GetSingleTrip, PostTrip, EditTrip];
+/******************************
+DeleteTrip 함수 설명
+email과 tripID에 해당하는 여행을 삭제함
+성공했을 때: 202
+실패했을 때: 503(서버상 오류)
+******************************/
+export function DeleteTrip(email, tripID) {
+    return new Promise(function(resolve, reject) {
+        if (!ValidateEmail(email)) {
+            resolve('invalid email');
+        }
+        else {
+            request({
+                url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID,
+                method: "DELETE"
+            }, function (error, response, body){
+                if (error) {
+                    console.log(error);
+                    resolve(null);
+                }
+                else {
+                    resolve(response.statusCode);
+                }
+            });
+        }
+    });
+}
 
 
 //Example code for the function
 /*
 var email = 'unme0101@naver.com';
 var name = '이상해씨';
-var start = '2019-01-01';
-var end = '2019-12-31';
+var start = '2019-1-21';
+var end = '2019-1-24';
 var area1 = 7;
 var area2 = 6;
 var area3 = 35;
+*/
 
+/*
 EditTrip(email, 4, name, start, end, area1, area2, area3).then(function(data){
     console.log(data);
 });
@@ -188,7 +216,7 @@ PostTrip(email, name, start, end, area1).then(function(data){
     console.log(data);
 });
 
-GetSingleTrip(email, 1).then(function(data){
+GetSingleTrip(email, 15).then(function(data){
     console.log(data);
     console.log(typeof(JSON.parse(data).start));
 });
@@ -196,6 +224,10 @@ GetSingleTrip(email, 1).then(function(data){
 ConvertDate("2018-12-31T15:00:00.000Z");
 
 EditTrip(email, 4, name, start, end, area1, area2, area3).then(function(data){
+    console.log(data);
+});
+
+DeleteTrip(email, 15).then(function(data){
     console.log(data);
 });
 */
