@@ -38,7 +38,7 @@ export default class Diary extends Component{
     _renderItem =({item}) => {//Flatlist list 내용
         return(
             <View style = {{alignItems: 'center'}}>
-                    <View style = {{marginVertical: 15, backgroundColor: '#FFF', width: '80%', padding: 20, shadowColor: '#000', shadowRadius: 3, shadowOffset: {width:0, height: 2}, shadowOpacity : 0.7, elevation: 5}}>
+                    <TouchableOpacity  onPress={()=>this.props.navigation.navigate('DshowScreen', {email:this.state.email, tripID: this.state.id, diaryID:item._id})} style = {{marginVertical: 15, backgroundColor: '#FFF', width: '80%', padding: 20, shadowColor: '#000', shadowRadius: 3, shadowOffset: {width:0, height: 2}, shadowOpacity : 0.7, elevation: 5}}>
                         <View style={{flexDirection: 'row', alignItems:'center', marginBottom:5}}>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={{fontSize: 32, fontWeight: '400'}}>{item.name}</Text>
@@ -47,11 +47,11 @@ export default class Diary extends Component{
                         </View>
                         <View><Text style={{fontSize: 20}}>{tripdataFunc.ConvertDate(item.date)}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
-                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=>this.props.navigation.navigate('DchangeScreen')}>
+                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=>this.props.navigation.navigate('DchangeScreen', {email:this.state.email, tripID: this.state.id, diaryID:item._id})}>
                                 <Text style={{color:'#FFF'}}>수정</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
                 </View>
         )

@@ -7,6 +7,7 @@ import Tabbar from '../pages/Tabbar';
 import Dwrite from '../pages/Dwrite';
 import New_Schedule from '../pages/New_Schedule';
 import Dchange from '../pages/Dchange';
+import Dshow from '../pages/Dshow';
 
 const MyTabNavigator = createMaterialTopTabNavigator({
     //탭 메뉴를 위한 네비게이터
@@ -24,8 +25,10 @@ const DiaryStackNavigator = createStackNavigator({
     DwriteScreen : {screen : Dwrite,
     },
     DchangeScreen : {screen : Dchange,
-    }
-},{headerMode : 'none'});
+    },
+    DshowScreen : {screen : Dshow,
+    },
+},{initialFouteName: 'DshowScreen', headerMode : 'none'});
 
 const ScheduleStackNavigator = createStackNavigator({
     New_ScheduleScreen : {screen: New_Schedule,

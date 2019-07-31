@@ -1,14 +1,54 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image, Picker, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image, Picker, TextInput, Platform} from 'react-native';
 import common from '../styles/Style';
 import { ScrollView } from 'react-native-gesture-handler';
 import PhotoUpload from 'react-native-photo-upload';
+import * as diarydataFunc from '../../serverRequest/diary_request';
 
-export default class Dchange extends Component{
+export default class Dwrite extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {value : "0"}
+        this.state = {
+            value : "0",
+            date: "0000-00-00",
+            email: '',
+            name: '',
+            data: '',
+            photo: null,
+            tripID: '',
+            diaryID: '',
+            diaryData: [],
+        }
+    }
+
+    componentDidMount(){
+        const email = this.props.navigation.getParam('email', 'nothing sent');
+        const tripID = this.props.navigation.getParam('tripID', 'nothing sent');
+        const diaryID = this.props.navigation.getParam('diaryID', 'nothing sent');
+
+        this.setState({email:email, tripID: tripID, diaryID: diaryID});
+        this.getDiaryFunction(email, tripID, diaryID);
+    }
+
+    getDiaryFunction(email, tripID, diaryID){
+        diarydataFunc.GetSingleDiary(email, tripID, diaryID).then(function(response){
+            return response;
+        }).then((data)=>{
+            this.setState({diaryData: data, name: data.name, data:data.data});
+            console.log("This is diary datas : ", this.state.diaryData);
+        })
+    }
+
+    saveBtnFunction(email, tripID, diaryID, name, date, data, photo){
+        this.updatediaryFunction(email, tripID, diaryID, name, date, data, photo);
+        this.props.navigation.navigate('DiaryScreen');
+    }
+
+    updatediaryFunction(email, tripID, diaryID, name, date, data, photo){
+        diarydataFunc.UpdateDiary(email, tripID, diaryID, name, date, data, photo).then(function(response){
+            return response.json();
+        })
     }
     
     render() {
@@ -16,36 +56,51 @@ export default class Dchange extends Component{
             <View style={styles.templatewrap}>
                 <PhotoUpload
                     onPhotoSelect={avatar => {
+                        this.setState({photo:avatar});
+                        console.log("TTTTTTTTTT", this.state.photo)
                         if (avatar) {
                             console.log('image base 64 string', avatar)
                         }
                     }}
                 >
-                    <Image resizeMode='cover' style={{width:320, height:160,marginBottom:10}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
+                    <Image resizeMode='cover' style={{width:320, height:120,marginBottom:10}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
                 </PhotoUpload>
                 
-                <TextInput style={styles.txtinput} placeholder='Enter title' placeholderTextColor='#D9D9D9' />
+                <TextInput
+                    style={styles.txtinput}
+                    value={this.state.name}
+                    placeholderTextColor='#D9D9D9'
+                    onChangeText={(text) => this.setState({name : text})}
+                    
+                />
                 <ScrollView style={styles.multiinput}>
                     <TextInput
                         multiline={true}
                         maxLength={40}
                         style={{ backgroundColor: '#FFF' }}
-                        placeholder='Enter memo'
+                        value={this.state.data}
                         placeholderTextColor='#D9D9D9'
+                        onChangeText={(text) => this.setState({data : text})}
                     />
                 </ScrollView>
             </View>
 
         const TempTwo =
             <View style={styles.templatewrap}>
-                <TextInput style={styles.txtinput} placeholder='Enter title' placeholderTextColor='#D9D9D9' />
+                <TextInput
+                    style={styles.txtinput}
+                    value={this.state.name}
+                    placeholderTextColor='#D9D9D9'
+                    onChangeText={(text) => this.setState({name : text})}
+                />
                 <ScrollView style={styles.multiinput}>
                     <TextInput
                         multiline={true}
                         maxLength={40}
                         style={{ backgroundColor: '#FFF' }}
-                        placeholder='Enter memo'
+                        value={this.state.data}
                         placeholderTextColor='#D9D9D9'
+                        onChangeText={(text) => this.setState({data : text})}
                     />
                 </ScrollView>
             </View>
@@ -62,13 +117,24 @@ export default class Dchange extends Component{
         return(
             <View style={common.greycontainer}>
                 <View style={styles.one}>
-                    <Text style={styles.toptext}>일기 작성</Text>
+                    <Text style={styles.toptext}>일기 수정</Text>
                 </View>
                 <View style={styles.two}>
                     <View style={styles.pickerwrap}>
                         <Picker
+                            selectedValue={this.state.date}
+                            onValueChange={(itemValue, itemIndex) => this.setState({date: itemValue})}
+                            style={styles.pickerstyle}>
+                            <Picker.Item label="날짜 선택" value="0000-00-00" />
+                            <Picker.Item label="2019-08-05" value="2019-08-05" />
+                            <Picker.Item label="2019-08-06" value="2019-08-06" />
+                            <Picker.Item label="2019-08-07" value="2019-08-07" />
+                        </Picker>
+                    </View>
+                    <View style={styles.pickerwrap}>
+                        <Picker
                             selectedValue={this.state.value}
-                            onValueChange={(itemValue, itemIndex) => this.setState({value: itemValue})}
+                            onValueChange={(itemValue2, itemIndex) => this.setState({value: itemValue2})}
                             style={styles.pickerstyle}>
                             <Picker.Item label="template 선택" value="0" />
                             <Picker.Item label="Template 1" value="1" />
@@ -77,7 +143,7 @@ export default class Dchange extends Component{
                     </View>
                     {Templatechange()}
                     <View style = {styles.btnwrap}>
-                        <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.navigate('DiaryScreen')}>
+                        <TouchableOpacity style = {styles.btn} onPress={()=>this.saveBtnFunction(this.state.email, this.state.tripID, this.state.diaryID, this.state.name, this.state.date, this.state.data, this.state.photo)}>
                             <Text style = {styles.btntxt}>저장</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.navigate('DiaryScreen')}>
@@ -122,7 +188,7 @@ const styles = StyleSheet.create({
         borderColor: '#FF7C5E'
     },
     templatewrap: {
-        height: '74%',
+        height: '67%',
         width: '80%',
         marginTop: 10,
     },

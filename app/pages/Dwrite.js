@@ -49,8 +49,6 @@ export default class Dwrite extends Component{
                             console.log('image base 64 string', avatar)
                         }
                     }}
-
-                    imagePickerProps={showImagePicker(options, (response) => {this.setState({photo:response})})}
                 >
                     <Image resizeMode='cover' style={{width:320, height:120,marginBottom:10}} source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}></Image>
                 </PhotoUpload>
@@ -135,7 +133,7 @@ export default class Dwrite extends Component{
                         <TouchableOpacity style = {styles.btn} onPress={()=>this.saveBtnFunction(this.state.email, this.state.id, this.state.name, this.state.date, this.state.data, this.state.photo)}>
                             <Text style = {styles.btntxt}>저장</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.navigate('DiaryScreen')}>
+                        <TouchableOpacity style = {styles.btn} onPress={()=>this.props.navigation.goBack()}>
                             <Text style = {styles.btntxt}>취소</Text>
                         </TouchableOpacity>
                     </View>
