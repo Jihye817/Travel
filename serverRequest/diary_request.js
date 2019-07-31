@@ -236,8 +236,12 @@ export function DeleteSingleDiary(email, tripID, diaryID) {
     return new Promise(function(resolve, reject) {
         request({
             url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary/' + diaryID,
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }, function (error, response, body){
+            console.log('diary delete response', response.statusCode);
             if (error) {
                 console.log(error);
                 resolve(null);

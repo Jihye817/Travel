@@ -177,7 +177,10 @@ export function DeleteTrip(email, tripID) {
         else {
             request({
                 url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID,
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }, function (error, response, body){
                 if (error) {
                     console.log(error);

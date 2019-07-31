@@ -32,6 +32,12 @@ export default class Triplist_main extends Component{
         }).done();
     }
 
+    deleteTripFunction(email, tripID){
+        tripFunc.DeleteTrip(email, tripID).then(function(response){
+            return response;
+        })
+    }
+
     areaFunction(key){
         switch(key) {
             case 1:
@@ -89,7 +95,7 @@ export default class Triplist_main extends Component{
                             </View>
                         <View style={{marginLeft:30,}}><Text>{this.areaFunction(item.area1)}  {this.areaFunction(item.area2)}  {this.areaFunction(item.area3)}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
-                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}}>
+                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=> this.deleteTripFunction(this.state.email, item._id)}>
                                 <Text style={{color:'#FFF'}}>삭제</Text>
                             </TouchableOpacity>
                         </View>

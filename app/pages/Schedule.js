@@ -92,6 +92,7 @@ export default class Schedule extends Component {
                         this.getInfoFunction(param2.type, param2.id, param);
                         this.getfullInfoFunction(param2.type, param2.id, param);
                     }) : null
+                    console.log('after getschedule', this.state.tripDataData);
                 })
             });
     }
@@ -132,6 +133,12 @@ export default class Schedule extends Component {
                 else{
                 this.setState({lats: this.state.lats.concat([0]), lons: this.state.lons.concat([0])})}
             })
+    }
+
+    deleteSchduleFunction(email, tripID, date, index){
+        scheduledataFunc.DeleteSchedule(email, tripID, date, index).then(function(response){
+            return response;
+        })
     }
 
     render() {
@@ -197,7 +204,9 @@ export default class Schedule extends Component {
                                                                                     onPress={() => this.setState({ originlat: this.state.lats[index], originlon: this.state.lons[index], destlat: this.state.lats[index + 1], destlon: this.state.lons[index + 1] })}>
                                                                                     <Text>길찾기</Text>
                                                                                 </TouchableOpacity>
-                                                                                <TouchableOpacity><Text>삭제</Text></TouchableOpacity>
+                                                                                <TouchableOpacity onPress={()=>{this.deleteSchduleFunction(this.state.email, this.state.id, param, index); this.getScheduleFunction(this.state.email, this.state.id);}}>
+                                                                                    <Text>삭제</Text>
+                                                                                </TouchableOpacity>
                                                                             </View>
                                                                         </View>
                                                                     );

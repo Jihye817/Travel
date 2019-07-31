@@ -35,6 +35,12 @@ export default class Diary extends Component{
         })
     }
 
+    deleteDiaryFunction(email, tripID, diaryID){
+        diarydataFunc.DeleteSingleDiary(email, tripID, diaryID).then(function(response){
+            return response;
+        });
+    }
+
     _renderItem =({item}) => {//Flatlist list 내용
         return(
             <View style = {{alignItems: 'center'}}>
@@ -47,12 +53,16 @@ export default class Diary extends Component{
                         </View>
                         <View><Text style={{fontSize: 20}}>{tripdataFunc.ConvertDate(item.date)}</Text></View>
                         <View style={{alignItems:'flex-end'}}>
-                            <TouchableOpacity style={{width: 50, padding:5, backgroundColor: '#FF7C5E', justifyContent:'center', alignItems:'center'}} onPress={()=>this.props.navigation.navigate('DchangeScreen', {email:this.state.email, tripID: this.state.id, diaryID:item._id})}>
-                                <Text style={{color:'#FFF'}}>수정</Text>
-                            </TouchableOpacity>
+                            <View style={{flexDirection:'row'}}>
+                                <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('DchangeScreen', {email:this.state.email, tripID: this.state.id, diaryID:item._id})}>
+                                    <Text style={{color:'#FFF'}}>수정</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.btn, {marginLeft:10}]} onPress={()=>this.deleteDiaryFunction(this.state.email, this.state.id, item._id)}>
+                                    <Text style={{color:'#FFF'}}>삭제</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </TouchableOpacity>
-
                 </View>
         )
     }
@@ -200,5 +210,12 @@ const styles = StyleSheet.create({
     bottombtnwrap: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    btn:{
+        width: 50,
+        padding:5,
+        backgroundColor: '#FF7C5E',
+        justifyContent:'center',
+        alignItems:'center'
     },
 })
