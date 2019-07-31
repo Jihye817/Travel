@@ -226,6 +226,30 @@ export function UpdateDiary(email, tripID, diaryID, name, date, data, photo = nu
     });
 }
 
+/******************************
+DeleteDiary 함수 설명
+email, tripID, diaryID에 해당하는 일기를 지운다
+성공했을 때: 202 반환
+실패했을 때: 503(서버상 오류)
+******************************/
+export function DeleteSingleDiary(email, tripID, diaryID) {
+    return new Promise(function(resolve, reject) {
+        request({
+            url: "http://106.10.53.87:8080/trips/" + email + '/' + tripID + '/diary/' + diaryID,
+            method: "DELETE"
+        }, function (error, response, body){
+            if (error) {
+                console.log(error);
+                resolve(null);
+            }
+            else {
+                console.log(response.statusCode, body);
+                resolve(response.statusCode);
+            }
+        });
+    });
+}
+
 /*
 //Example code
 var email = 'unme0101@naver.com';
@@ -252,6 +276,10 @@ PostDiary(email, tripID, name, date, data).then(function(data) {
 });
 
 UpdateDiary(email, tripID, diaryID, name, date, data).then(function(data) {
+    console.log(data);
+});
+
+DeleteDiary(email, tripID, diaryID).then(function(data){
     console.log(data);
 });
 */
