@@ -20,7 +20,7 @@
     "events": "^1.0.0",
     "https-browserify": "0.0.1",
     "levelup": "^4.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "path-browserify": "0.0.0",
     "punycode": "^1.2.4",
     "querystring-es3": "^0.2.1",
